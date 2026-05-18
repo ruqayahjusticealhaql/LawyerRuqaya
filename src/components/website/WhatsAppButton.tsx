@@ -2,7 +2,7 @@
 
 export default function FloatingContactButtons() {
   return (
-    <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+    <div className="fixed left-4 bottom-24 z-50 flex flex-col gap-3">
       {/* اتصال */}
       <a
         href="tel:+966504905047"
