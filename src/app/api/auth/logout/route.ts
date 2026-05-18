@@ -12,5 +12,5 @@ export async function POST(req: NextRequest) {
     cookieStore.delete("auth-token");
   }
 
-  return NextResponse.redirect(new URL("/", req.url));
+  return NextResponse.json({ success: true });
 }

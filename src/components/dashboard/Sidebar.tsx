@@ -122,18 +122,19 @@ export default function DashboardSidebar({ user }: { user: SessionUser }) {
           {!collapsed && <span>طيّ القائمة</span>}
         </button>
 
-        <form action="/api/auth/logout" method="POST">
-          <button
-            type="submit"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 w-full text-sm font-medium hover:bg-red-500/10"
-            style={{ color: "rgba(255,255,255,0.3)" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#FCA5A5")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
-          >
-            <LogOut className="w-[18px] h-[18px] flex-shrink-0" />
-            {!collapsed && <span>تسجيل الخروج</span>}
-          </button>
-        </form>
+        <button
+          onClick={async () => {
+            await fetch("/api/auth/logout", { method: "POST" });
+            window.location.href = "/";
+          }}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 w-full text-sm font-medium hover:bg-red-500/10"
+          style={{ color: "rgba(255,255,255,0.3)" }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "#FCA5A5")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
+        >
+          <LogOut className="w-[18px] h-[18px] flex-shrink-0" />
+          {!collapsed && <span>تسجيل الخروج</span>}
+        </button>
       </div>
     </aside>
   );
