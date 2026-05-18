@@ -7,108 +7,24 @@ async function main() {
   const defaultPassword = await bcrypt.hash("123456", 12);
 
   // 1. MANAGER
-  const manager = await prisma.user.upsert({
-    where: { email: "manager@lawoffice.sa" },
-    update: { role: "MANAGER", password: defaultPassword },
-    create: {
-      name: "المدير العام",
-      email: "manager@lawoffice.sa",
-      password: defaultPassword,
-      role: "MANAGER",
-      phone: "0500000001",
-    },
-  });
+  const accounts = [
+    { email: "manager@lawoffice.sa",    name: "المدير العام",              role: "MANAGER",         phone: "0500000001" },
+    { email: "content@lawoffice.sa",    name: "مدير المحتوى",              role: "CONTENT_MANAGER", phone: "0500000002" },
+    { email: "accountant@lawoffice.sa", name: "المحاسب المالي",            role: "ACCOUNTANT",      phone: "0500000003" },
+    { email: "hr@lawoffice.sa",         name: "مدير الموارد البشرية",      role: "HR_MANAGER",      phone: "0500000004" },
+    { email: "lawyer@lawoffice.sa",     name: "المحامي الأساسي",           role: "LAWYER",          phone: "0500000005" },
+    { email: "advisor@lawoffice.sa",    name: "المستشار القانوني",         role: "ADVISOR",         phone: "0500000006" },
+    { email: "secretary@lawoffice.sa",  name: "السكرتير القانوني",         role: "SECRETARY",       phone: "0500000007" },
+    { email: "reception@lawoffice.sa",  name: "موظف الاستقبال",            role: "RECEPTIONIST",    phone: "0500000008" },
+  ];
 
-  // 2. CONTENT_MANAGER
-  const contentManager = await prisma.user.upsert({
-    where: { email: "content@lawoffice.sa" },
-    update: { role: "CONTENT_MANAGER", password: defaultPassword },
-    create: {
-      name: "مدير المحتوى",
-      email: "content@lawoffice.sa",
-      password: defaultPassword,
-      role: "CONTENT_MANAGER",
-      phone: "0500000002",
-    },
-  });
-
-  // 3. ACCOUNTANT
-  const accountant = await prisma.user.upsert({
-    where: { email: "accountant@lawoffice.sa" },
-    update: { role: "ACCOUNTANT", password: defaultPassword },
-    create: {
-      name: "المحاسب المالي",
-      email: "accountant@lawoffice.sa",
-      password: defaultPassword,
-      role: "ACCOUNTANT",
-      phone: "0500000003",
-    },
-  });
-
-  // 4. HR_MANAGER
-  const hrManager = await prisma.user.upsert({
-    where: { email: "hr@lawoffice.sa" },
-    update: { role: "HR_MANAGER", password: defaultPassword },
-    create: {
-      name: "مدير الموارد البشرية",
-      email: "hr@lawoffice.sa",
-      password: defaultPassword,
-      role: "HR_MANAGER",
-      phone: "0500000004",
-    },
-  });
-
-  // 5. LAWYER
-  const lawyer = await prisma.user.upsert({
-    where: { email: "lawyer@lawoffice.sa" },
-    update: { role: "LAWYER", password: defaultPassword },
-    create: {
-      name: "المحامي الأساسي",
-      email: "lawyer@lawoffice.sa",
-      password: defaultPassword,
-      role: "LAWYER",
-      phone: "0500000005",
-    },
-  });
-
-  // 6. ADVISOR
-  const advisor = await prisma.user.upsert({
-    where: { email: "advisor@lawoffice.sa" },
-    update: { role: "ADVISOR", password: defaultPassword },
-    create: {
-      name: "المستشار القانوني",
-      email: "advisor@lawoffice.sa",
-      password: defaultPassword,
-      role: "ADVISOR",
-      phone: "0500000006",
-    },
-  });
-
-  // 7. SECRETARY
-  const secretary = await prisma.user.upsert({
-    where: { email: "secretary@lawoffice.sa" },
-    update: { role: "SECRETARY", password: defaultPassword },
-    create: {
-      name: "السكرتير القانوني",
-      email: "secretary@lawoffice.sa",
-      password: defaultPassword,
-      role: "SECRETARY",
-      phone: "0500000007",
-    },
-  });
-
-  // 8. RECEPTIONIST
-  const receptionist = await prisma.user.upsert({
-    where: { email: "reception@lawoffice.sa" },
-    update: { role: "RECEPTIONIST", password: defaultPassword },
-    create: {
-      name: "موظف الاستقبال",
-      email: "reception@lawoffice.sa",
-      password: defaultPassword,
-      role: "RECEPTIONIST",
-      phone: "0500000008",
-    },
-  });
+  for (const acc of accounts) {
+    await prisma.user.upsert({
+      where: { email: acc.email },
+      update: { role: acc.role, password: defaultPassword, isActive: true },
+      create: { name: acc.name, email: acc.email, password: defaultPassword, role: acc.role, phone: acc.phone, isActive: true },
+    });
+  }
 
   // Clean old dummy data that might conflict (e.g. users not in the 8 roles)
   const allowedEmails = [
