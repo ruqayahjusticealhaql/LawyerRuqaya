@@ -123,9 +123,10 @@ export default function DashboardSidebar({ user }: { user: SessionUser }) {
         </button>
 
         <button
+          type="button"
           onClick={async () => {
             await fetch("/api/auth/logout", { method: "POST" });
-            window.location.href = "/";
+            window.location.replace("/");
           }}
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 w-full text-sm font-medium hover:bg-red-500/10"
           style={{ color: "rgba(255,255,255,0.3)" }}
