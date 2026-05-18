@@ -9,7 +9,7 @@ export default async function NewContractPage({
   searchParams: Promise<{ caseId?: string }>;
 }) {
   const session = await getSession();
-  if (!hasRole(session, "MANAGER", "ACCOUNTANT")) redirect("/dashboard");
+  if (!hasRole(session, "MANAGER", "LEGAL_SECRETARY")) redirect("/dashboard");
 
   const params = await searchParams;
 

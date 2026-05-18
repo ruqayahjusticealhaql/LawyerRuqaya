@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   const session = await getSession();
-  if (!hasRole(session, "MANAGER", "HR_MANAGER")) {
+  if (!hasRole(session, "MANAGER")) {
     return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   }
 

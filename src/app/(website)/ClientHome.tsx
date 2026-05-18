@@ -41,10 +41,10 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
     {
       layout: "centered",
       showLogo: true,
-      title: "مكتب المحامية رقية عبدالرحمن",
+      title: "شركة رقية عبدالرحمن",
       subtitle: cmsData.settings.slogan || "ندافع عن حقك، لأنك تستحقه",
       desc: "خبرة واسعة في تقديم الاستشارات القانونية والشرعية وصياغة العقود وتمثيل موكلينا أمام جميع المحاكم والجهات القضائية.",
-      img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+      img: "https://images.unsplash.com/photo-1453945619913-79ec89a82c51?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
       buttons: [
         { text: "استكشف المزيد", link: "/services", style: "filled" },
       ],
@@ -152,7 +152,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
                     <div className="mb-8 text-center mx-auto flex flex-col items-center">
                       <img 
                         src="/images/logo.png" 
-                        alt="شعار مكتب المحامية رقية عبدالرحمن" 
+                        alt="شعار شركة رقية عبدالرحمن"
                         className="w-64 md:w-80 h-auto object-contain mb-4"
                       />
                     </div>
@@ -287,7 +287,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
         {/* Background Image & Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')" }}
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')" }}
         />
         <div className="absolute inset-0 bg-white/90 backdrop-blur-[2px]" />
 
@@ -378,9 +378,9 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
             {/* Left Side: Image */}
             <div className="w-full lg:w-1/2">
               <div className="relative rounded-3xl overflow-hidden shadow-xl h-[450px]">
-                <img 
-                  src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                  alt="قيمنا" 
+                <img
+                  src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                  alt="قيمنا"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -466,7 +466,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
                 {
                   name: "المهندس أحمد المطيري",
                   role: "مطور عقاري",
-                  text: "أنصح بشدة بالتعامل مع مكتب المحامية رقية في القضايا العقارية والنزاعات التعاقدية. خبرتهم باللوائح والأنظمة الجديدة ممتازة وحرصهم على مصلحة الموكل يفوق التوقعات.",
+                  text: "أنصح بشدة بالتعامل مع شركة رقية عبدالرحمن للمحاماة في القضايا العقارية والنزاعات التعاقدية. خبرتهم باللوائح والأنظمة الجديدة ممتازة وحرصهم على مصلحة الموكل يفوق التوقعات.",
                   rating: 5,
                 },
               ];

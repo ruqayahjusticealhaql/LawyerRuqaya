@@ -33,8 +33,8 @@ export default function LoginPage() {
               <Scale className="w-6 h-6" style={{ color: "#1a1000" }} />
             </div>
             <div>
-              <div className="font-bold" style={{ color: "#F8FAFC" }}>مكتب المحامية</div>
-              <div className="text-sm font-semibold" style={{ color: "#D4A373" }}>رقية عبدالرحمن</div>
+              <div className="font-bold" style={{ color: "#F8FAFC" }}>شركة رقية</div>
+              <div className="text-sm font-semibold" style={{ color: "#D4A373" }}>عبدالرحمن للمحاماة</div>
             </div>
           </Link>
         </div>
@@ -42,7 +42,7 @@ export default function LoginPage() {
         {/* Body */}
         <div className="relative">
           <h2 className="text-4xl font-bold leading-tight mb-4" style={{ color: "#F8FAFC" }}>
-            إدارة مكتبك
+            إدارة شركتك
             <br />
             <span style={{
               background: "linear-gradient(135deg, #C9975B, #D4A373, #E6B980)",
@@ -77,7 +77,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <div className="relative text-sm" style={{ color: "#2A3A52" }}>
-          © 2025 مكتب المحامية رقية عبدالرحمن
+          © 2025 شركة رقية عبدالرحمن
         </div>
       </div>
 
@@ -96,7 +96,7 @@ export default function LoginPage() {
             >
               <Scale className="w-7 h-7" style={{ color: "#1a1000" }} />
             </div>
-            <h1 className="font-bold text-xl" style={{ color: "#F8FAFC" }}>مكتب المحامية رقية</h1>
+            <h1 className="font-bold text-xl" style={{ color: "#F8FAFC" }}>شركة رقية عبدالرحمن</h1>
           </div>
 
           {/* Card */}

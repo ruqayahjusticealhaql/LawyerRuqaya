@@ -14,7 +14,7 @@ export default async function ContractDetailPage({
 }) {
   const { id } = await params;
   const session = await getSession();
-  if (!hasRole(session, "MANAGER", "ACCOUNTANT")) {
+  if (!hasRole(session, "MANAGER", "LEGAL_SECRETARY")) {
     redirect("/dashboard");
   }
 

@@ -6,7 +6,7 @@ import { MessageSquare, Phone, Mail } from "lucide-react";
 
 export default async function MessagesPage() {
   const session = await getSession();
-  if (!hasRole(session, "MANAGER", "RECEPTIONIST", "SECRETARY")) {
+  if (!hasRole(session, "MANAGER", "LEGAL_SECRETARY")) {
     redirect("/dashboard");
   }
 

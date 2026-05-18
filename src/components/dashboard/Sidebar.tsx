@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Scale, Users, FileText, DollarSign,
   Calendar, UserCog, Settings, LogOut, ChevronRight, MessageSquare,
-  Globe
+  Globe, CalendarDays
 } from "lucide-react";
 
 import { SessionUser } from "@/lib/auth";
@@ -15,16 +15,17 @@ import { useState } from "react";
 type NavItem = { href: string; label: string; icon: React.ReactNode; roles: string[] };
 
 const navItems: NavItem[] = [
-  { href: "/dashboard",          label: "الرئيسية",  icon: <LayoutDashboard className="w-[18px] h-[18px]" />, roles: ["MANAGER","CONTENT_MANAGER","ACCOUNTANT","HR_MANAGER","LAWYER","ADVISOR","SECRETARY","RECEPTIONIST"] },
-  { href: "/dashboard/cases",    label: "القضايا",   icon: <Scale            className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","SECRETARY"] },
-  { href: "/dashboard/tasks",    label: "المهام",    icon: <FileText         className="w-[18px] h-[18px]" />, roles: ["MANAGER","CONTENT_MANAGER","ACCOUNTANT","HR_MANAGER","LAWYER","ADVISOR","SECRETARY","RECEPTIONIST"] },
-  { href: "/dashboard/cms",      label: "إدارة المحتوى", icon: <Globe            className="w-[18px] h-[18px]" />, roles: ["MANAGER","CONTENT_MANAGER"] },
-  { href: "/dashboard/clients",  label: "العملاء",   icon: <Users            className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","SECRETARY","ADVISOR"] },
-  { href: "/dashboard/finance",  label: "الحسابات",  icon: <DollarSign       className="w-[18px] h-[18px]" />, roles: ["MANAGER","ACCOUNTANT"] },
-  { href: "/dashboard/calendar", label: "التقويم",   icon: <Calendar         className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","SECRETARY","ADVISOR"] },
-  { href: "/dashboard/messages", label: "الرسائل",   icon: <MessageSquare    className="w-[18px] h-[18px]" />, roles: ["MANAGER","RECEPTIONIST","SECRETARY"] },
-  { href: "/dashboard/staff",    label: "الفريق",    icon: <UserCog          className="w-[18px] h-[18px]" />, roles: ["MANAGER","HR_MANAGER"] },
-  { href: "/dashboard/settings", label: "الإعدادات", icon: <Settings         className="w-[18px] h-[18px]" />, roles: ["MANAGER"] },
+  { href: "/dashboard",          label: "الرئيسية",      icon: <LayoutDashboard className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/cases",    label: "القضايا",       icon: <Scale            className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/sessions", label: "الجلسات",       icon: <CalendarDays     className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/tasks",    label: "المهام",        icon: <FileText         className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/cms",      label: "إدارة المحتوى", icon: <Globe            className="w-[18px] h-[18px]" />, roles: ["MANAGER"] },
+  { href: "/dashboard/clients",  label: "العملاء",       icon: <Users            className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/finance",  label: "الحسابات",      icon: <DollarSign       className="w-[18px] h-[18px]" />, roles: ["MANAGER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/calendar", label: "التقويم",       icon: <Calendar         className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/messages", label: "الرسائل",       icon: <MessageSquare    className="w-[18px] h-[18px]" />, roles: ["MANAGER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/staff",    label: "الفريق",        icon: <UserCog          className="w-[18px] h-[18px]" />, roles: ["MANAGER"] },
+  { href: "/dashboard/settings", label: "الإعدادات",     icon: <Settings         className="w-[18px] h-[18px]" />, roles: ["MANAGER"] },
 ];
 
 export default function DashboardSidebar({ user }: { user: SessionUser }) {
@@ -52,8 +53,8 @@ export default function DashboardSidebar({ user }: { user: SessionUser }) {
           </div>
           {!collapsed && (
             <div className="overflow-hidden">
-              <div className="font-bold text-sm leading-tight" style={{ color: "#FFFFFF" }}>مكتب المحامية</div>
-              <div className="text-xs font-semibold" style={{ color: "#C5A059" }}>رقية عبدالرحمن</div>
+              <div className="font-bold text-sm leading-tight" style={{ color: "#FFFFFF" }}>شركة رقية</div>
+              <div className="text-xs font-semibold" style={{ color: "#C5A059" }}>عبدالرحمن للمحاماة</div>
             </div>
           )}
 

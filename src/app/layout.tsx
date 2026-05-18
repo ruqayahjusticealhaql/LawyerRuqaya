@@ -6,9 +6,9 @@ const cairo = Cairo({ subsets: ["arabic", "latin"], weight: ["400", "500", "700"
 const ibmPlex = IBM_Plex_Sans_Arabic({ subsets: ["arabic"], weight: ["400", "500", "700"], variable: "--font-ibm-plex" });
 
 export const metadata: Metadata = {
-  title: "مكتب المحامية رقية عبدالرحمن",
-  description: "مكتب قانوني متخصص في قضايا العمالة والأحوال الشخصية والتجارية",
-  keywords: "محامية, مكتب محاماة, قضايا عمالية, أحوال شخصية, السعودية",
+  title: "شركة رقية عبدالرحمن",
+  description: "شركة قانونية متخصصة في تقديم الاستشارات والخدمات القانونية والمرافعة أمام كافة الجهات القضائية",
+  keywords: "محاماة, شركة محاماة, استشارات قانونية, قضايا عمالية, أحوال شخصية, السعودية",
 };
 
 import { getSettings } from "@/lib/cms";

@@ -5,7 +5,7 @@ import { getSession, hasRole } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   const session = await getSession();
-  if (!hasRole(session, "MANAGER", "ACCOUNTANT")) {
+  if (!hasRole(session, "MANAGER", "LEGAL_SECRETARY")) {
     return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   }
 

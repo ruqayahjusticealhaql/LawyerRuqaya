@@ -7,7 +7,7 @@ export type CmsSettings = {
   siteName: string; slogan: string; logoUrl: string;
   primaryColor: string; secondaryColor: string;
   phone: string; whatsapp: string; email: string; address: string;
-  instagramUrl: string; twitterUrl: string;
+  instagramUrl: string; twitterUrl: string; linkedinUrl: string;
   // About page
   aboutText: string; aboutImage: string;
   vision: string; mission: string;
@@ -21,6 +21,8 @@ export type CmsSettings = {
   // Footer
   footerAboutText: string;
   companyReg: string;
+  // Team
+  teamMembers: string; // JSON array of {name, title, specialization, photoUrl}
 };
 
 export type CmsService = {
@@ -56,9 +58,9 @@ function read(): CmsData {
   } catch {
     return {
       settings: {
-        siteName: "مكتب المحامية رقية", slogan: "", logoUrl: "/images/logo.png",
+        siteName: "شركة رقية عبدالرحمن", slogan: "", logoUrl: "/images/logo.png",
         primaryColor: "#C5A059", secondaryColor: "#0B1325",
-        phone: "", whatsapp: "", email: "", address: "", instagramUrl: "", twitterUrl: "",
+        phone: "", whatsapp: "", email: "", address: "", instagramUrl: "", twitterUrl: "", linkedinUrl: "",
         aboutText: "", aboutImage: "",
       },
       services: [], sections: [], announcements: [], blog: [],

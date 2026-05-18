@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
-import { Phone, Mail, MapPin, ArrowLeft, Instagram, Twitter, MessageSquare, Shield } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowLeft, Instagram, Twitter, MessageSquare, Shield, Linkedin } from "lucide-react";
 import type { CmsSettings } from "@/lib/cms";
 
 export default function WebsiteFooter({ settings }: { settings: CmsSettings }) {
   const {
-    phone, email, address, instagramUrl, twitterUrl,
+    phone, email, address, instagramUrl, twitterUrl, linkedinUrl,
     footerAboutText, companyReg, siteName, whatsapp,
   } = settings;
 
@@ -33,6 +33,14 @@ export default function WebsiteFooter({ settings }: { settings: CmsSettings }) {
                 className="bg-[#0B1325] border border-white/10 p-2 rounded-lg hover:bg-[#C5A059] transition-colors"
               >
                 <Instagram size={16} />
+              </a>
+              <a
+                href={linkedinUrl || "#"}
+                target={linkedinUrl ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="bg-[#0B1325] border border-white/10 p-2 rounded-lg hover:bg-[#C5A059] transition-colors"
+              >
+                <Linkedin size={16} />
               </a>
               <a
                 href={twitterUrl || "#"}

@@ -8,9 +8,9 @@ export default async function DashboardPage() {
   const session = await getSession();
   if (!session) return null;
 
-  const isAdmin     = session.role === "ADMIN";
-  const isAccountant = session.role === "ACCOUNTANT";
-  const isLawyer    = session.role === "LAWYER";
+  const isAdmin           = session.role === "MANAGER";
+  const isLegalSecretary  = session.role === "LEGAL_SECRETARY";
+  const isLawyer          = session.role === "LAWYER";
 
   // Fetch counts based on role
   const [totalCases, activeCases, totalClients, upcomingAppointments] = await Promise.all([
@@ -42,7 +42,7 @@ export default async function DashboardPage() {
       { href: "/dashboard/cases?status=ACTIVE", value: activeCases, label: "القضايا النشطة", icon: <TrendingUp className="w-5 h-5" />, bg: "rgba(52, 211, 153, 0.1)", color: "#10B981" },
       { href: "/dashboard/calendar", value: upcomingAppointments, label: "مواعيدي القادمة", icon: <Calendar className="w-5 h-5" />, bg: "rgba(11, 19, 37, 0.05)", color: "#0B1325" },
     ];
-  } else if (isAccountant) {
+  } else if (isLegalSecretary) {
     stats = [
       { href: "/dashboard/finance", value: formatCurrency(totalRevenue), label: "إجمالي الإيرادات", icon: <DollarSign className="w-5 h-5" />, bg: "rgba(197, 160, 89, 0.1)", color: "var(--gold-500)" },
       { href: "/dashboard/finance", value: formatCurrency(totalSalaries), label: "مسير الرواتب", icon: <CreditCard className="w-5 h-5" />, bg: "rgba(11, 19, 37, 0.05)", color: "#0B1325" },
@@ -114,7 +114,7 @@ export default async function DashboardPage() {
             </div>
           )}
 
-          {(isAccountant) && (
+          {(isLegalSecretary) && (
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold" style={{ color: "var(--navy-200)" }}>آخر العمليات المالية</h2>
@@ -134,7 +134,7 @@ export default async function DashboardPage() {
             </div>
           )}
 
-          {(isAccountant) && (
+          {(isLegalSecretary) && (
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
               <h2 className="text-xl font-bold mb-6" style={{ color: "var(--navy-200)" }}>تنبيهات الاستحقاق</h2>
               <p className="text-sm text-slate-400 text-center py-8">لا توجد تنبيهات دفع معلقة.</p>

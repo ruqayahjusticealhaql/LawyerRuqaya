@@ -1,17 +1,20 @@
 import { getSession, hasRole } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Database, Lock, Globe, CheckCircle, ExternalLink, AlertTriangle } from "lucide-react";
+import { getSettings } from "@/lib/cms";
 
 export default async function SettingsPage() {
   const session = await getSession();
   if (!hasRole(session, "MANAGER")) redirect("/dashboard");
+
+  const settings = getSettings();
 
   return (
     <div className="space-y-6 max-w-3xl animate-fade-in">
       <div>
         <p className="text-sm font-semibold mb-1" style={{ color: "#D4A373" }}>النظام</p>
         <h1 className="text-2xl font-bold" style={{ color: "#F8FAFC" }}>الإعدادات</h1>
-        <p className="text-sm mt-1" style={{ color: "#4A6080" }}>إعدادات النظام والمكتب</p>
+        <p className="text-sm mt-1" style={{ color: "#4A6080" }}>إعدادات النظام والشركة</p>
       </div>
 
       {[
@@ -19,15 +22,15 @@ export default async function SettingsPage() {
           icon: Globe,
           iconBg: "rgba(74,96,128,0.15)",
           iconColor: "#8FA3BF",
-          title: "معلومات المكتب",
+          title: "معلومات الشركة",
           content: (
             <div className="space-y-3">
               {[
-                { label: "اسم المكتب",        value: "مكتب المحامية رقية عبدالرحمن" },
-                { label: "رقم الهاتف",         value: "+966 50 000 0000" },
-                { label: "البريد الإلكتروني",  value: "info@ruqayyah-law.sa" },
-                { label: "العنوان",            value: "الرياض، حي العليا، شارع التخصصي" },
-                { label: "رقم واتساب",         value: "966500000000" },
+                { label: "اسم الشركة",        value: settings.siteName },
+                { label: "رقم الهاتف",         value: settings.phone },
+                { label: "البريد الإلكتروني",  value: settings.email },
+                { label: "العنوان",            value: settings.address },
+                { label: "رقم واتساب",         value: settings.whatsapp },
               ].map((item) => (
                 <div key={item.label} className="flex justify-between items-center py-2.5" style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                   <span className="text-sm" style={{ color: "#4A6080" }}>{item.label}</span>

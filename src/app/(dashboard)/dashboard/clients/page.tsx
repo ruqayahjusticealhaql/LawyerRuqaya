@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default async function ClientsPage() {
   const session = await getSession();
-  if (!hasRole(session, "MANAGER", "SECRETARY", "LAWYER", "ADVISOR")) redirect("/dashboard");
+  if (!hasRole(session, "MANAGER", "LEGAL_SECRETARY", "LAWYER")) redirect("/dashboard");
 
   const clients = await prisma.client.findMany({
     include: { _count: { select: { cases: true } } },

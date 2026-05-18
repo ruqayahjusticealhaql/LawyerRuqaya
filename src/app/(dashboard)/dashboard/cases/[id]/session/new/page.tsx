@@ -9,7 +9,7 @@ export default async function NewSessionPage({
 }) {
   const { id } = await params;
   const session = await getSession();
-  if (!hasRole(session, "MANAGER", "SECRETARY", "LAWYER", "ADVISOR")) {
+  if (!hasRole(session, "MANAGER", "LEGAL_SECRETARY", "LAWYER")) {
     redirect(`/dashboard/cases/${id}`);
   }
 

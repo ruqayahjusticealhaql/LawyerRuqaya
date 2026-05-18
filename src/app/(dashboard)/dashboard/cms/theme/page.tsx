@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 export default async function ThemePage() {
   const session = await getSession();
-  if (!session || !["MANAGER", "CONTENT_MANAGER"].includes(session.role)) {
+  if (!session || session.role !== "MANAGER") {
     redirect("/dashboard/cms");
   }
 

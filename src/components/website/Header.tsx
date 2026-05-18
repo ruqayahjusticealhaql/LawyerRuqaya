@@ -23,7 +23,7 @@ export default function WebsiteHeader({ phone }: { phone?: string }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const displayPhone = phone || "+966504905047";
+  const displayPhone = phone || "0538225224";
   const telLink = `tel:${displayPhone.replace(/\s/g, "")}`;
 
   return (

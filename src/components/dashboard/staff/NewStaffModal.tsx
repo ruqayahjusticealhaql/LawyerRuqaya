@@ -74,8 +74,8 @@ export default function NewStaffModal() {
                   <label className="block text-sm font-semibold text-gray-700 mb-1">الدور *</label>
                   <select required value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} className={`${inputClass} bg-white`}>
                     <option value="LAWYER">محامي</option>
-                    <option value="ACCOUNTANT">محاسب</option>
-                    <option value="SECRETARY">سكرتارية</option>
+                    <option value="LEGAL_SECRETARY">سكرتير قانوني</option>
+                    <option value="MANAGER">مدير</option>
                   </select>
                 </div>
               </div>

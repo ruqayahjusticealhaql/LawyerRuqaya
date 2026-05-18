@@ -15,7 +15,7 @@ export default async function ServicesPage() {
       <div className="relative bg-[#0B1325] text-white py-24 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-40"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')` }}
+          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1453945619913-79ec89a82c51?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B1325] via-transparent to-[#0B1325]/80" />
         <div className="container mx-auto px-6 relative z-10 text-right">
@@ -47,38 +47,52 @@ export default async function ServicesPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((svc) => (
-              <Link href="/contact" key={svc.id} className="group block rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 bg-[#0B1325]">
-                {/* Image */}
-                <div className="relative h-52 overflow-hidden">
-                  {svc.imageUrl ? (
-                    <img
-                      src={svc.imageUrl}
-                      alt={svc.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-[#0B1325]/50 flex items-center justify-center text-5xl">
+            {services.map((svc) => {
+              const bullets: string[] = (() => {
+                try { return JSON.parse(svc.bullets || "[]"); } catch { return []; }
+              })();
+              return (
+                <Link
+                  href="/contact"
+                  key={svc.id}
+                  className="group block rounded-2xl border border-gray-200 hover:border-[#C5A059]/50 shadow-sm hover:shadow-xl transition-all duration-300 bg-white text-right"
+                >
+                  <div className="p-8">
+                    {/* Icon / Emoji */}
+                    <div className="w-16 h-16 rounded-2xl bg-[#0B1325]/5 group-hover:bg-[#C5A059]/10 flex items-center justify-center text-4xl mb-6 transition-colors">
                       {svc.icon || "⚖️"}
                     </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/30" />
-                  <span className="absolute top-4 left-4 bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full">
-                    خدمات
-                  </span>
-                </div>
 
-                {/* Content */}
-                <div className="p-6 text-right">
-                  <h3 className={`text-xl font-bold text-white mb-3 ${naskh.className}`}>{svc.title}</h3>
-                  <p className={`text-slate-300 text-sm leading-loose mb-5 ${naskh.className}`}>{svc.description}</p>
-                  <div className="flex items-center justify-end gap-2 text-[#C5A059] font-bold text-sm group-hover:gap-4 transition-all">
-                    <span>اقرأ المزيد</span>
+                    {/* Title */}
+                    <h3 className={`text-xl font-bold text-[#0B1325] mb-3 ${naskh.className}`}>
+                      {svc.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className={`text-slate-500 text-sm leading-loose mb-5 ${naskh.className}`}>
+                      {svc.description}
+                    </p>
+
+                    {/* Bullets */}
+                    {bullets.length > 0 && (
+                      <ul className="space-y-2">
+                        {bullets.map((b, i) => (
+                          <li key={i} className="flex items-center gap-2 text-sm text-[#0B1325]">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#C5A059] flex-shrink-0" />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+
+                  <div className="px-8 pb-6 flex items-center justify-end gap-2 text-[#C5A059] font-bold text-sm group-hover:gap-4 transition-all border-t border-gray-100 pt-4">
+                    <span>تواصل معنا</span>
                     <span>←</span>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

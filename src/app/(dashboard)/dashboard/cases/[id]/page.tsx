@@ -34,8 +34,8 @@ export default async function CaseDetailPage({
     notFound();
   }
 
-  const canEdit = session.role === "ADMIN" || session.role === "SECRETARY";
-  const canSeeFinance = session.role === "ADMIN" || session.role === "ACCOUNTANT";
+  const canEdit = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY";
+  const canSeeFinance = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY";
   const totalExpenses = caseData.expenses.reduce((sum, e) => sum + e.amount, 0);
 
   return (
