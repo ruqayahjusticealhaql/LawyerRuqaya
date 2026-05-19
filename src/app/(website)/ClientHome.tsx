@@ -287,7 +287,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
                 className="flex items-center gap-4 px-8 py-5 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg hover:border-[#C5A059] transition-all cursor-pointer group min-w-max"
               >
                 <div className="w-16 h-16 overflow-hidden flex-shrink-0 flex items-center justify-center text-[#C5A059]">
-                  {(() => { const icon = getServiceIcon((srv as { id?: string }).id || ""); return icon ? <img src={icon} className="w-full h-full object-contain scale-[2.8]" /> : <Briefcase className="w-10 h-10" />; })()}
+                  {(() => { const icon = getServiceIcon((srv as { id?: string }).id || ""); return icon ? <img src={icon} className="w-full h-full object-contain scale-[2.2]" /> : <Briefcase className="w-10 h-10" />; })()}
                 </div>
                 <span className="font-bold text-[#0B1325] text-lg font-arabic">{srv.title}</span>
               </Link>
