@@ -6,6 +6,7 @@ import {
   ChevronLeft, FileText, MessageSquare, UserCog,
 } from "lucide-react";
 import Link from "next/link";
+import PendingApprovalsWidget from "@/components/dashboard/PendingApprovalsWidget";
 
 export default async function DashboardPage() {
   const session = await getSession();
@@ -78,6 +79,24 @@ export default async function DashboardPage() {
     ? await prisma.client.findMany({ take: 5, orderBy: { createdAt: "desc" } })
     : [];
 
+  // Pending approvals for admins
+  const [pendingCases, pendingTasks, allLawyers, allUsers] = (isManager || isLegalSecretary)
+    ? await Promise.all([
+        prisma.case.findMany({
+          where: { status: "PENDING_APPROVAL" },
+          include: { createdBy: true, lawyer: true },
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.task.findMany({
+          where: { approvalStatus: "PENDING_APPROVAL" },
+          include: { createdBy: true, assignedTo: true },
+          orderBy: { createdAt: "desc" },
+        }),
+        prisma.user.findMany({ where: { role: "LAWYER", isActive: true }, select: { id: true, name: true } }),
+        prisma.user.findMany({ where: { isActive: true }, select: { id: true, name: true, role: true } }),
+      ])
+    : [[], [], [], []];
+
   const gridCols = stats.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3";
 
   return (
@@ -144,6 +163,16 @@ export default async function DashboardPage() {
             </Link>
           ))}
         </div>
+      )}
+
+      {/* Pending Approvals (admin only) */}
+      {(isManager || isLegalSecretary) && (
+        <PendingApprovalsWidget
+          pendingCases={pendingCases as any}
+          pendingTasks={pendingTasks as any}
+          lawyers={allLawyers}
+          users={allUsers}
+        />
       )}
 
       {/* Main Content */}

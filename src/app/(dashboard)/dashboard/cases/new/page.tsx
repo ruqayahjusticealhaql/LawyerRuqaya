@@ -5,7 +5,7 @@ import NewCaseForm from "@/components/dashboard/cases/NewCaseForm";
 
 export default async function NewCasePage() {
   const session = await getSession();
-  if (!hasRole(session, "MANAGER", "LEGAL_SECRETARY")) {
+  if (!hasRole(session, "MANAGER", "LEGAL_SECRETARY", "LAWYER")) {
     redirect("/dashboard/cases");
   }
 
@@ -21,7 +21,7 @@ export default async function NewCasePage() {
         <p className="text-gray-500 text-sm mt-1">أدخل بيانات القضية الجديدة</p>
       </div>
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <NewCaseForm clients={clients} lawyers={lawyers} createdById={session!.id} />
+        <NewCaseForm clients={clients} lawyers={lawyers} createdById={session!.id} currentUserId={session!.id} currentUserRole={session!.role} />
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import Link from "next/link";
 const STATUS_OPTIONS = [
   { label: "الكل", value: "" },
   { label: "نشطة",  value: "ACTIVE" },
+  { label: "بانتظار الموافقة", value: "PENDING_APPROVAL" },
   { label: "مغلقة", value: "CLOSED" },
   { label: "مكسوبة",value: "WON" },
   { label: "خاسرة", value: "LOST" },
@@ -15,6 +16,7 @@ const STATUS_OPTIONS = [
 
 const STATUS_LABEL: Record<string, string> = {
   ACTIVE: "نشطة", CLOSED: "مغلقة", SUSPENDED: "معلقة", WON: "مكسوبة", LOST: "خاسرة",
+  PENDING_APPROVAL: "بانتظار الموافقة",
 };
 
 export default async function CasesPage({
@@ -45,7 +47,7 @@ export default async function CasesPage({
     orderBy: { createdAt: "desc" },
   });
 
-  const canCreate = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY";
+  const canCreate = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY" || session.role === "LAWYER";
 
   return (
     <div className="space-y-8 animate-fade-in" dir="rtl" style={{ fontFamily: "'Cairo', sans-serif" }}>
@@ -148,6 +150,7 @@ export default async function CasesPage({
                     <td className="px-6 py-4">
                       <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
                         c.status === "ACTIVE" ? "bg-emerald-50 text-emerald-600" :
+                        c.status === "PENDING_APPROVAL" ? "bg-amber-50 text-amber-700" :
                         c.status === "SUSPENDED" ? "bg-amber-50 text-amber-600" :
                         c.status === "WON" ? "bg-blue-50 text-blue-600" :
                         c.status === "LOST" ? "bg-red-50 text-red-600" : "bg-slate-100 text-slate-600"

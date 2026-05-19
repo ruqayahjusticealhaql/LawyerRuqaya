@@ -14,11 +14,14 @@ interface NewTaskFormProps {
   users: Array<{ id: string; name: string; role: string }>;
   cases: Array<{ id: string; title: string; caseNumber: string }>;
   onSuccess?: () => void;
+  currentUserId?: string;
+  currentUserRole?: string;
 }
 
-export default function NewTaskForm({ users, cases, onSuccess }: NewTaskFormProps) {
+export default function NewTaskForm({ users, cases, onSuccess, currentUserId, currentUserRole }: NewTaskFormProps) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isLawyer = currentUserRole === "LAWYER";
 
   const [formData, setFormData] = useState({
     title: "",
@@ -26,7 +29,7 @@ export default function NewTaskForm({ users, cases, onSuccess }: NewTaskFormProp
     priority: "MEDIUM",
     status: "TODO",
     dueDate: "",
-    assignedToId: "",
+    assignedToId: isLawyer && currentUserId ? currentUserId : "",
     caseId: "",
   });
 
@@ -136,6 +139,25 @@ export default function NewTaskForm({ users, cases, onSuccess }: NewTaskFormProp
               {error}
             </div>
           )}
+
+          {/* Approval notice for lawyers */}
+          {isLawyer && (() => {
+            const isSelf = formData.assignedToId === currentUserId;
+            const hasPick = !!formData.assignedToId;
+            if (!hasPick) return null;
+            return (
+              <div className={`flex items-start gap-3 p-4 rounded-2xl text-sm border ${
+                isSelf ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-amber-50 border-amber-200 text-amber-800"
+              }`}>
+                <span className="font-bold">{isSelf ? "✓ تفعيل فوري" : "⏳ بانتظار موافقة الإدارة"}</span>
+                <span className="opacity-80">
+                  {isSelf
+                    ? "المهمة لنفسك — ستُفعَّل مباشرة."
+                    : "المهمة لشخص آخر — ستنتظر موافقة المدير أو السكرتيرة."}
+                </span>
+              </div>
+            );
+          })()}
 
           {/* Task Name */}
           <div className="space-y-2">

@@ -35,9 +35,7 @@ export default async function TasksPage() {
           <h1 className="text-3xl font-extrabold tracking-tight" style={{ color: "var(--navy-200)" }}>إدارة المهام والعمليات التشاركية</h1>
           <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>إسناد المهام بين الكادر القانوني والمحاسبي وتتبع الخط الزمني للإنجاز</p>
         </div>
-        {(session.role === "MANAGER" || session.role === "LEGAL_SECRETARY") && (
-          <NewTaskModal users={users} cases={cases} />
-        )}
+        <NewTaskModal users={users} cases={cases} currentUserId={session.id} currentUserRole={session.role} />
       </div>
 
       <TasksRegistry initialTasks={tasks} />

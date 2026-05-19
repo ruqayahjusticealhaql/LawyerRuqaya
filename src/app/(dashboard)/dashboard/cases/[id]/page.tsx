@@ -5,6 +5,7 @@ import { formatDate, formatDateTime, formatCurrency, CASE_STATUS_LABELS, CASE_TY
 import { Scale, Calendar, FileText, DollarSign, Plus, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import AssignLawyerModal from "@/components/dashboard/cases/AssignLawyerModal";
+import PendingCaseApprovalBanner from "@/components/dashboard/cases/PendingCaseApprovalBanner";
 
 export default async function CaseDetailPage({
   params,
@@ -85,6 +86,21 @@ export default async function CaseDetailPage({
           </div>
         )}
       </div>
+
+      {/* Alert: Pending Approval */}
+      {caseData.status === "PENDING_APPROVAL" && canEdit && (
+        <PendingCaseApprovalBanner
+          caseId={id}
+          caseTitle={caseData.title}
+          lawyers={lawyers}
+        />
+      )}
+      {caseData.status === "PENDING_APPROVAL" && !canEdit && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+          <p className="text-sm text-amber-800 font-semibold">هذه القضية بانتظار موافقة الإدارة قبل تفعيلها.</p>
+        </div>
+      )}
 
       {/* Alert: Appeal Deadline */}
       {caseData.appealDeadline && new Date(caseData.appealDeadline) > new Date() && (

@@ -7,9 +7,11 @@ import NewTaskForm from "./NewTaskForm";
 interface Props {
   users: Array<{ id: string; name: string; role: string }>;
   cases: Array<{ id: string; title: string; caseNumber: string }>;
+  currentUserId?: string;
+  currentUserRole?: string;
 }
 
-export default function NewTaskModal({ users, cases }: Props) {
+export default function NewTaskModal({ users, cases, currentUserId, currentUserRole }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -46,7 +48,7 @@ export default function NewTaskModal({ users, cases }: Props) {
             </div>
 
             <div className="p-8" dir="rtl">
-              <NewTaskForm users={users} cases={cases} onSuccess={() => setOpen(false)} />
+              <NewTaskForm users={users} cases={cases} onSuccess={() => setOpen(false)} currentUserId={currentUserId} currentUserRole={currentUserRole} />
             </div>
           </div>
         </div>

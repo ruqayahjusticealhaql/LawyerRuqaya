@@ -2,14 +2,17 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Client, User } from "@prisma/client";
+import { Info, CheckCircle2, Clock } from "lucide-react";
 
 type Props = {
   clients: Client[];
   lawyers: User[];
   createdById: string;
+  currentUserId: string;
+  currentUserRole: string;
 };
 
-export default function NewCaseForm({ clients, lawyers, createdById }: Props) {
+export default function NewCaseForm({ clients, lawyers, createdById, currentUserId, currentUserRole }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -18,12 +21,16 @@ export default function NewCaseForm({ clients, lawyers, createdById }: Props) {
     caseNumber: "",
     type: "OTHER",
     clientId: "",
-    lawyerId: "",
+    lawyerId: currentUserRole === "LAWYER" ? currentUserId : "",
     court: "",
     description: "",
     nextSession: "",
     appealDeadline: "",
   });
+
+  const isLawyer = currentUserRole === "LAWYER";
+  const isSelfAssigned = form.lawyerId === currentUserId;
+  const willNeedApproval = isLawyer && form.lawyerId && !isSelfAssigned;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,6 +63,32 @@ export default function NewCaseForm({ clients, lawyers, createdById }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+
+      {/* Approval notice for lawyers */}
+      {isLawyer && (
+        <div className={`flex items-start gap-3 p-4 rounded-xl text-sm border ${
+          willNeedApproval
+            ? "bg-amber-50 border-amber-200 text-amber-800"
+            : "bg-emerald-50 border-emerald-200 text-emerald-800"
+        }`}>
+          {willNeedApproval
+            ? <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
+            : <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" />
+          }
+          <div>
+            <p className="font-bold">
+              {willNeedApproval ? "بانتظار موافقة الإدارة" : "تفعيل فوري"}
+            </p>
+            <p className="text-xs mt-0.5 opacity-80">
+              {willNeedApproval
+                ? "بما أنك تسند القضية لمحامٍ آخر، ستدخل في حالة انتظار الموافقة من المدير أو السكرتيرة."
+                : "بما أنك تسند القضية لنفسك، ستُفعَّل القضية تلقائياً وفوراً."
+              }
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <label className={labelClass}>عنوان القضية *</label>
@@ -90,7 +123,9 @@ export default function NewCaseForm({ clients, lawyers, createdById }: Props) {
           <select value={form.lawyerId} onChange={(e) => setForm({ ...form, lawyerId: e.target.value })} className={`${inputClass} bg-white`}>
             <option value="">اختر المحامي</option>
             {lawyers.map((l) => (
-              <option key={l.id} value={l.id}>{l.name}</option>
+              <option key={l.id} value={l.id}>
+                {l.name}{l.id === currentUserId ? " (أنا)" : ""}
+              </option>
             ))}
           </select>
         </div>
@@ -116,7 +151,7 @@ export default function NewCaseForm({ clients, lawyers, createdById }: Props) {
 
       <div className="flex gap-3">
         <button type="submit" disabled={loading} className="btn-primary flex-1 disabled:opacity-70">
-          {loading ? "جاري الحفظ..." : "حفظ القضية"}
+          {loading ? "جاري الحفظ..." : willNeedApproval ? "إرسال طلب القضية للموافقة" : "حفظ القضية"}
         </button>
         <button type="button" onClick={() => router.back()} className="px-6 py-3 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">
           إلغاء

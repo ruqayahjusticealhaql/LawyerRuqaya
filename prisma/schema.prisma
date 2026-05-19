@@ -31,10 +31,11 @@ model User {
   // New relations
   activityLogs  ActivityLog[]
   caseComments  CaseComment[]
-  assignedTasks Task[]     @relation("AssignedTo")
-  createdTasks  Task[]     @relation("CreatedBy")
+  assignedTasks Task[]        @relation("AssignedTo")
+  createdTasks  Task[]        @relation("CreatedBy")
   notifications Notification[]
   caseTimeline  CaseTimeline[]
+  taskComments  TaskComment[]
 
   // Relations for Client Portal and Chat/Meetings
   clientId      String?   @unique
@@ -287,27 +288,48 @@ model CaseTimeline {
 }
 
 model Task {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  status      String   @default("TODO") // "TODO", "IN_PROGRESS", "DONE"
-  priority    String   @default("MEDIUM") // "LOW", "MEDIUM", "HIGH"
-  dueDate     DateTime?
-  attachments String?  // JSON array of file URLs
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  title          String
+  description    String?
+  status         String   @default("TODO") // "TODO", "IN_PROGRESS", "REVIEW", "DONE"
+  priority       String   @default("MEDIUM") // "LOW", "MEDIUM", "HIGH"
+  approvalStatus String   @default("APPROVED") // "APPROVED", "PENDING_APPROVAL", "REJECTED"
+  dueDate        DateTime?
+  attachments    String?  // JSON array of file URLs
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  caseId      String?
-  case        Case?    @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  caseId       String?
+  case         Case?    @relation(fields: [caseId], references: [id], onDelete: SetNull)
   assignedToId String
-  assignedTo  User     @relation("AssignedTo", fields: [assignedToId], references: [id], onDelete: Cascade)
-  createdById String
-  createdBy   User     @relation("CreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
+  assignedTo   User     @relation("AssignedTo", fields: [assignedToId], references: [id], onDelete: Cascade)
+  createdById  String
+  createdBy    User     @relation("CreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
+
+  parentTaskId String?
+  parentTask   Task?    @relation("SubTasks", fields: [parentTaskId], references: [id], onDelete: SetNull)
+  subTasks     Task[]   @relation("SubTasks")
+  taskComments TaskComment[]
 
   @@index([assignedToId])
   @@index([caseId])
   @@index([status])
   @@index([dueDate])
+  @@index([approvalStatus])
+}
+
+model TaskComment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([userId])
 }
 
 model Notification {
