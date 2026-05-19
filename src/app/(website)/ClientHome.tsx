@@ -67,7 +67,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
       title: "العدالة والنزاهة والكفاءة",
       subtitle: "قيم نؤمن بها ونحميها",
       desc: "نسعى لتقديم حلول قانونية وقائية متكاملة للأفراد والشركات لحمايتها ودعم نموها المستقر وفق الأنظمة واللوائح المعمول بها في المملكة.",
-      img: "",
+      img: "/images/team-photo.jpg",
       buttons: [
         { text: "تواصل معنا", link: "/contact", style: "filled" },
       ],
@@ -138,12 +138,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
                   <span className="text-white text-lg font-bold mb-4">
                     {slide.topText}
                   </span>
-                  <img src="/images/header-banner.png" alt="" className="w-full max-w-lg mx-auto mb-4 object-contain" />
-                  <div className="flex items-center gap-4 mb-6 w-full max-w-lg mx-auto">
-                    <div className="flex-1 h-[2px] bg-white" />
-                    <Scale size={32} className="text-[#C5A059] flex-shrink-0" />
-                    <div className="flex-1 h-[2px] bg-white" />
-                  </div>
+                  <img src="/images/header-banner.png" alt="" className="w-full max-w-lg mx-auto mb-6 object-contain" />
                   <div className="mb-6 inline-block">
                     <h1 className="text-5xl md:text-6xl font-bold text-white">
                       {slide.title}
