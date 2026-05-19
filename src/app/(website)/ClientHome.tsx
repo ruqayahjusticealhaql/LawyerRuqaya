@@ -66,7 +66,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
       topText: "مستشاركم القانوني المعتمد",
       title: "صياغة العقود والاتفاقيات والتحكيم",
       desc: "نحمي التزاماتكم التجارية والشخصية بصياغة عقود قانونية محكمة وحل النزاعات وتسوية الخلافات القضائية بأعلى مستويات المهنية والسرية.",
-      img: "/images/hero-slide-3.png",
+      img: "",
       buttons: [
         { text: "احجز استشارتك الآن", link: "/contact", style: "filled" },
       ],
