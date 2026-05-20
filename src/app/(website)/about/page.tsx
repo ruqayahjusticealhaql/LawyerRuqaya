@@ -110,7 +110,7 @@ export default async function AboutPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6" dir="rtl">
               {settings.vision && (
-                <div className="rounded-2xl p-7 border border-[#C5A059]/20" style={{ background: "rgba(255,255,255,0.04)" }}>
+                <div className="rounded-2xl p-7" style={{ background: "#111A2E" }}>
                   <div className="flex items-center justify-between mb-5">
                     <div className="w-2 h-2 rotate-45 bg-[#C5A059] flex-shrink-0" />
                     <div className="flex items-center gap-3 flex-1 justify-end">
@@ -122,7 +122,7 @@ export default async function AboutPage() {
                 </div>
               )}
               {settings.mission && (
-                <div className="rounded-2xl p-7 border border-[#C5A059]/20" style={{ background: "rgba(255,255,255,0.04)" }}>
+                <div className="rounded-2xl p-7" style={{ background: "#111A2E" }}>
                   <div className="flex items-center justify-between mb-5">
                     <div className="w-2 h-2 rotate-45 bg-[#C5A059] flex-shrink-0" />
                     <div className="flex items-center gap-3 flex-1 justify-end">
