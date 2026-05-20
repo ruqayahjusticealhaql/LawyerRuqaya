@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Aref_Ruqaa } from "next/font/google";
 import {
@@ -31,34 +31,6 @@ const arefFont = Aref_Ruqaa({ subsets: ["arabic"], weight: ["400", "700"] });
 
 import type { CmsData } from "@/lib/cms";
 
-function useInView(threshold = 0.2) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } }, { threshold });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return { ref, inView };
-}
-
-function useCounter(target: number, active: boolean, duration = 1500) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!active) return;
-    let start = 0;
-    const step = Math.ceil(target / (duration / 16));
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) { setCount(target); clearInterval(timer); }
-      else setCount(start);
-    }, 16);
-    return () => clearInterval(timer);
-  }, [active, target, duration]);
-  return count;
-}
 
 const getServiceIcon = (id: string): string | null => {
   switch (id) {
@@ -74,11 +46,6 @@ const getServiceIcon = (id: string): string | null => {
 
 export default function HomePage({ cmsData }: { cmsData: CmsData }) {
   const [activeHero, setActiveHero] = useState(0);
-  const { ref: whyRef, inView: whyInView } = useInView(0.2);
-  const c1 = useCounter(15, whyInView);
-  const c2 = useCounter(500, whyInView);
-  const c3 = useCounter(98, whyInView);
-  const c4 = useCounter(12, whyInView);
 
   // Use CMS sections for hero banners if available
   const cmsHeroSections = cmsData.sections.filter(s => s.type === "HERO_BANNER" && s.page === "home" && s.active);
@@ -330,6 +297,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
 
       {/* ══════════ WHY CHOOSE US SECTION ══════════ */}
       <div className="relative py-24 bg-white overflow-hidden">
+        {/* Background */}
         <div className="absolute inset-0 bg-white" />
 
         <div className="container mx-auto px-4 relative z-10">
@@ -341,32 +309,39 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
           </div>
 
           {/* Grid of 4 Points */}
-          <div ref={whyRef} className="grid grid-cols-2 lg:grid-cols-4 gap-16 text-center max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-16 text-center max-w-6xl mx-auto">
+
             {[
-              { img: "/images/خبرة قانونية واسعة.png", title: "خبرة قانونية واسعة", desc: "معرفة عميقة وشاملة بالأنظمة القضائية في المملكة، لتقديم استشارات تحمي مصالحكم وتدعم استقرار أعمالكم.", count: c1, suffix: "+ سنة" },
-              { img: "/images/تعامل احترافي وسري.png", title: "تعامل احترافي وسري", desc: "التزام مطلق بأعلى معايير الخصوصية والأمان لبياناتكم، والتعامل مع كل قضية بمسؤولية تامة واحترافية عالية.", count: c2, suffix: "+ قضية" },
-              { img: "/images/خدمات متكاملة.png", title: "خدمات متكاملة", desc: "حلول قانونية شاملة تغطي الترافع القضائي، صياغة العقود، تقديم الاستشارات، وتأسيس الشركات لنكون مرجعكم الأول.", count: c3, suffix: "% رضا" },
-              { img: "/images/متابعة مستمرة لقضاياك.png", title: "متابعة مستمرة لقضاياك", desc: "نقف معكم خطوة بخطوة، ونوفر قنوات تواصل مباشرة لإطلاعكم على مستجدات الجلسات والمعاملات أولاً بأول.", count: c4, suffix: "+ خدمة" },
+              {
+                img: "/images/خبرة قانونية واسعة.png",
+                title: "خبرة قانونية واسعة",
+                desc: "معرفة عميقة وشاملة بالأنظمة القضائية في المملكة، لتقديم استشارات تحمي مصالحكم وتدعم استقرار أعمالكم.",
+              },
+              {
+                img: "/images/تعامل احترافي وسري.png",
+                title: "تعامل احترافي وسري",
+                desc: "التزام مطلق بأعلى معايير الخصوصية والأمان لبياناتكم، والتعامل مع كل قضية بمسؤولية تامة واحترافية عالية.",
+              },
+              {
+                img: "/images/خدمات متكاملة.png",
+                title: "خدمات متكاملة",
+                desc: "حلول قانونية شاملة تغطي الترافع القضائي، صياغة العقود، تقديم الاستشارات، وتأسيس الشركات لنكون مرجعكم الأول.",
+              },
+              {
+                img: "/images/متابعة مستمرة لقضاياك.png",
+                title: "متابعة مستمرة لقضاياك",
+                desc: "نقف معكم خطوة بخطوة، ونوفر قنوات تواصل مباشرة لإطلاعكم على مستجدات الجلسات والمعاملات أولاً بأول.",
+              },
             ].map((point, idx) => (
-              <div
-                key={idx}
-                className="flex flex-col items-center group"
-                style={{
-                  opacity: whyInView ? 1 : 0,
-                  transform: whyInView ? "translateY(0)" : "translateY(40px)",
-                  transition: `opacity 0.6s ease ${idx * 0.15}s, transform 0.6s ease ${idx * 0.15}s`,
-                }}
-              >
+              <div key={idx} className="flex flex-col items-center group">
                 <div className="w-24 h-24 flex items-center justify-center mb-2 transition-transform group-hover:-translate-y-2 duration-300">
                   <img src={point.img} alt={point.title} className="w-20 h-20 object-contain" />
-                </div>
-                <div className="text-2xl font-bold text-[#C5A059] mb-1">
-                  {point.count}<span className="text-sm mr-1">{point.suffix}</span>
                 </div>
                 <h3 className="text-lg font-bold text-[#0B1325] mb-2">{point.title}</h3>
                 <p className="text-sm text-gray-500 text-center leading-relaxed">{point.desc}</p>
               </div>
             ))}
+
           </div>
         </div>
       </div>
