@@ -123,7 +123,6 @@ export default function WebsiteFooter({ settings }: { settings: CmsSettings }) {
         <div className="mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-slate-500"
           style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
           <p>© {new Date().getFullYear()} {siteName} - جميع الحقوق محفوظة</p>
-          <p className="text-xs">تصميم وتطوير بواسطة Corpintech</p>
         </div>
       </div>
     </footer>
