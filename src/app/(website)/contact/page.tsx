@@ -20,7 +20,7 @@ export default function ContactPage() {
         subtitle="نحن هنا لمساعدتك، لا تتردد في التواصل معنا في أي وقت"
       />
 
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 rounded-t-[60px]">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Contact Info */}

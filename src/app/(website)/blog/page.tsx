@@ -31,7 +31,7 @@ export default function BlogPage() {
         subtitle="مقالات ومعلومات قانونية مفيدة لمساعدتك في فهم حقوقك والاطلاع على أحدث الأنظمة والتعاميم"
       />
 
-      <section className="py-24 bg-[#FAFAFA]" dir="rtl">
+      <section className="py-24 bg-[#FAFAFA] rounded-t-[60px]" dir="rtl">
         <div className="container mx-auto px-6 max-w-7xl">
           {posts.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm">

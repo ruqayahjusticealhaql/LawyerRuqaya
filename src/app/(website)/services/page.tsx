@@ -41,7 +41,7 @@ export default async function ServicesPage() {
       </PageHero>
 
       {/* SERVICES GRID */}
-      <div className="bg-[#f5f5f3] py-20">
+      <div className="bg-[#f5f5f3] py-20 rounded-t-[60px]">
         <div className="container mx-auto px-6">
           <div className="text-right mb-12">
             <h2 className="text-3xl font-bold text-[#0B1325] mb-2">خدمات</h2>

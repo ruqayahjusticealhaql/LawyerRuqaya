@@ -17,7 +17,7 @@ export default function PageHero({ title, subtitle, children }: PageHeroProps) {
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#C5A059]/60 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-20 pb-6">
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-28 pb-14">
         <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 font-arabic leading-tight">
           {title}
         </h1>
