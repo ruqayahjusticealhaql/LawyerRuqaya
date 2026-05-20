@@ -69,7 +69,7 @@ export default function PageHero({ title, subtitle, children, decorativeImage }:
         style={{ height: "80px" }}
       >
         <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-full">
-          <polygon points="0,80 1440,0 1440,80" fill="white" />
+          <polygon points="0,0 1440,80 0,80" fill="white" />
         </svg>
       </div>
     </section>
