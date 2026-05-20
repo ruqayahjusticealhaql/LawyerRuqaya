@@ -100,7 +100,7 @@ export default function WebsiteHeader({ phone }: { phone?: string }) {
               <span dir="ltr">{displayPhone}</span>
             </a>
             <Link href="/auth/login" className="btn-gold text-sm px-5 py-2">
-              لوحة التحكم
+              تسجيل الدخول
             </Link>
           </div>
 
@@ -144,7 +144,7 @@ export default function WebsiteHeader({ phone }: { phone?: string }) {
               </a>
               <div className="mt-2 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
                 <Link href="/auth/login" onClick={() => setIsOpen(false)} className="btn-gold w-full text-sm justify-center">
-                  دخول لوحة التحكم
+                  تسجيل الدخول
                 </Link>
               </div>
             </nav>
