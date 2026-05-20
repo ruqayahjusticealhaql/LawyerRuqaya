@@ -33,7 +33,6 @@ export default async function AboutPage() {
     <>
       <PageHero
         title="من نحن"
-        breadcrumb={[{ label: "الرئيسية" }, { label: "من نحن" }]}
       >
         <img src="/images/header-banner.png" alt="" className="w-64 md:w-80 object-contain opacity-90 mt-2" />
       </PageHero>

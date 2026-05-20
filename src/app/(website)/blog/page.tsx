@@ -29,7 +29,6 @@ export default function BlogPage() {
       <PageHero
         title="المدونة القانونية"
         subtitle="مقالات ومعلومات قانونية مفيدة لمساعدتك في فهم حقوقك والاطلاع على أحدث الأنظمة والتعاميم"
-        breadcrumb={[{ label: "الرئيسية" }, { label: "المدونة" }]}
       />
 
       <section className="py-24 bg-[#FAFAFA]" dir="rtl">

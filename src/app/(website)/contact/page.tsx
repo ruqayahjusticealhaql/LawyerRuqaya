@@ -18,7 +18,6 @@ export default function ContactPage() {
       <PageHero
         title="تواصل معنا"
         subtitle="نحن هنا لمساعدتك، لا تتردد في التواصل معنا في أي وقت"
-        breadcrumb={[{ label: "الرئيسية" }, { label: "تواصل معنا" }]}
       />
 
       <section className="py-20 bg-gray-50">

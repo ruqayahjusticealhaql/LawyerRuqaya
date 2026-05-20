@@ -29,7 +29,6 @@ export default async function ServicesPage() {
       <PageHero
         title="الخدمات والإستشارات القانونية"
         subtitle="نقدم خدمات نوعية ومتنوعة لعملائنا مستندة إلى قدراتنا المتخصصة والمهنية العالية."
-        breadcrumb={[{ label: "الرئيسية" }, { label: "الخدمات والإستشارات القانونية" }]}
       >
         <div className="flex flex-wrap gap-3 justify-center">
           <Link href="/contact" className="flex items-center gap-2 border border-[#C5A059]/50 hover:bg-[#C5A059] hover:border-[#C5A059] transition-all px-6 py-2.5 rounded-full text-sm font-bold font-arabic">
@@ -62,11 +61,11 @@ export default async function ServicesPage() {
                 >
                   <div className="p-8">
                     {/* Icon / Emoji */}
-                    <div className="w-16 h-16 flex items-center justify-center mb-6 overflow-hidden">
+                    <div className="w-12 h-12 flex items-center justify-center mb-6">
                       <img
                         src={getServiceIconPath(svc.id)}
                         alt={svc.title}
-                        className="w-full h-full object-contain scale-[2.2] group-hover:brightness-110"
+                        className="w-full h-full object-contain group-hover:brightness-110"
                       />
                     </div>
 

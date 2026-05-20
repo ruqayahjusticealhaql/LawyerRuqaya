@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Scale, Users, FileText, DollarSign,
   Calendar, UserCog, Settings, LogOut, ChevronRight, MessageSquare,
-  Globe, CalendarDays
+  Globe, CalendarDays, CheckSquare
 } from "lucide-react";
 
 import { SessionUser } from "@/lib/auth";
@@ -18,7 +18,8 @@ const navItems: NavItem[] = [
   { href: "/dashboard",          label: "الرئيسية",      icon: <LayoutDashboard className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
   { href: "/dashboard/cases",    label: "القضايا",       icon: <Scale            className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
   { href: "/dashboard/sessions", label: "الجلسات",       icon: <CalendarDays     className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
-  { href: "/dashboard/tasks",    label: "المهام",        icon: <FileText         className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/tasks",      label: "مهام المكتب",  icon: <FileText         className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
+  { href: "/dashboard/tasks/mine", label: "مهامي",        icon: <CheckSquare      className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
   { href: "/dashboard/cms",      label: "إدارة المحتوى", icon: <Globe            className="w-[18px] h-[18px]" />, roles: ["MANAGER"] },
   { href: "/dashboard/clients",  label: "العملاء",       icon: <Users            className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
   { href: "/dashboard/finance",  label: "الحسابات",      icon: <DollarSign       className="w-[18px] h-[18px]" />, roles: ["MANAGER","LEGAL_SECRETARY"] },
@@ -85,7 +86,10 @@ export default function DashboardSidebar({ user }: { user: SessionUser }) {
       {/* Nav */}
       <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
         {visibleItems.map((item) => {
-          const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+          const isActive =
+            item.href === "/dashboard/tasks"
+              ? pathname === "/dashboard/tasks"
+              : pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
           return (
             <Link
               key={item.href}

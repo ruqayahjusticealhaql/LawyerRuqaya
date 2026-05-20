@@ -11,6 +11,11 @@ export async function updateTaskStatus(taskId: string, newStatus: string) {
   const task = await prisma.task.findUnique({ where: { id: taskId }, include: { assignedTo: true } });
   if (!task) throw new Error("المهمة غير موجودة");
 
+  const isAdmin = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY";
+  if (!isAdmin && task.assignedToId !== session.id) {
+    throw new Error("لا تملك صلاحية تعديل هذه المهمة");
+  }
+
   await prisma.task.update({ where: { id: taskId }, data: { status: newStatus } });
 
   try {

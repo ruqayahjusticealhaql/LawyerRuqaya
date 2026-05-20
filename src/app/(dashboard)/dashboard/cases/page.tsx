@@ -31,9 +31,10 @@ export default async function CasesPage({
   const statusFilter = params.status || "";
   const search       = params.search || "";
 
+  const isAdmin = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY";
+
   const cases = await prisma.case.findMany({
     where: {
-      ...(session.role === "LAWYER" ? { lawyerId: session.id } : {}),
       ...(statusFilter ? { status: statusFilter } : {}),
       ...(search ? {
         OR: [
@@ -47,7 +48,7 @@ export default async function CasesPage({
     orderBy: { createdAt: "desc" },
   });
 
-  const canCreate = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY" || session.role === "LAWYER";
+  const canCreate = isAdmin || session.role === "LAWYER";
 
   return (
     <div className="space-y-8 animate-fade-in" dir="rtl" style={{ fontFamily: "'Cairo', sans-serif" }}>
@@ -56,8 +57,12 @@ export default async function CasesPage({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: "var(--gold-600)" }}>القضايا والملفات</p>
-          <h1 className="text-3xl font-extrabold tracking-tight" style={{ color: "var(--navy-200)" }}>إدارة القضايا</h1>
-          <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>عرض ومتابعة كافة القضايا في المكتب ({cases.length})</p>
+          <h1 className="text-3xl font-extrabold tracking-tight" style={{ color: "var(--navy-200)" }}>
+            {isAdmin ? "قضايا المكتب" : "قضايا المكتب"}
+          </h1>
+          <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
+            {isAdmin ? `جميع قضايا المكتب (${cases.length})` : `قضايا المكتب — المُسندة إليك: ${cases.filter(c => c.lawyerId === session.id).length}`}
+          </p>
         </div>
         {canCreate && (
           <Link href="/dashboard/cases/new">
@@ -143,7 +148,12 @@ export default async function CasesPage({
                   <tr key={c.id} className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4 text-sm font-bold" style={{ color: "var(--navy-200)" }}>{c.caseNumber}</td>
                     <td className="px-6 py-4">
-                      <div className="font-bold text-sm" style={{ color: "var(--navy-200)" }}>{c.title}</div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-sm" style={{ color: "var(--navy-200)" }}>{c.title}</span>
+                        {c.lawyerId === session.id && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: "rgba(197,160,89,0.15)", color: "#C5A059" }}>قضيتي</span>
+                        )}
+                      </div>
                       {c.court && <div className="text-xs text-slate-400 mt-0.5">{c.court}</div>}
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-600 font-semibold">{c.client.name}</td>

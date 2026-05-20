@@ -31,13 +31,11 @@ export default async function CaseDetailPage({
 
   if (!caseData) notFound();
 
-  // Access control: lawyers can only see their own cases
-  if (session.role === "LAWYER" && caseData.lawyerId !== session.id) {
-    notFound();
-  }
+  const isAdmin = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY";
+  const isAssignedLawyer = session.role === "LAWYER" && caseData.lawyerId === session.id;
 
-  const canEdit = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY";
-  const canSeeFinance = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY";
+  const canEdit = isAdmin || isAssignedLawyer;
+  const canSeeFinance = isAdmin;
   const totalExpenses = caseData.expenses.reduce((sum, e) => sum + e.amount, 0);
 
   const lawyers = canEdit
@@ -51,6 +49,14 @@ export default async function CaseDetailPage({
   return (
     <div className="space-y-6">
       {/* Header */}
+      {/* Read-only banner for non-assigned lawyers */}
+      {session.role === "LAWYER" && !isAssignedLawyer && (
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold" style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)", color: "#B45309" }}>
+          <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+          هذه القضية مسندة لمحامٍ آخر — أنت في وضع القراءة فقط
+        </div>
+      )}
+
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-3 mb-2">

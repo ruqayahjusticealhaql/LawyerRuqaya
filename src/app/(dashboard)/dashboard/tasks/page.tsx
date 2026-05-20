@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import TasksRegistry from "@/components/dashboard/TasksRegistry";
 import NewTaskModal from "@/components/dashboard/NewTaskModal";
 
+export const dynamic = "force-dynamic";
+
 export default async function TasksPage() {
   const session = await getSession();
   if (!session) {
@@ -38,7 +40,7 @@ export default async function TasksPage() {
         <NewTaskModal users={users} cases={cases} currentUserId={session.id} currentUserRole={session.role} />
       </div>
 
-      <TasksRegistry initialTasks={tasks} />
+      <TasksRegistry initialTasks={tasks} currentUserId={session.id} currentUserRole={session.role} />
 
     </div>
   );

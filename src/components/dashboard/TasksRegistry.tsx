@@ -12,9 +12,15 @@ import { ROLE_LABELS } from "@/lib/roles";
 
 interface TasksRegistryProps {
   initialTasks: any[];
+  currentUserId?: string;
+  currentUserRole?: string;
+  defaultScope?: "ALL" | "MINE";
 }
 
-export default function TasksRegistry({ initialTasks }: TasksRegistryProps) {
+export default function TasksRegistry({ initialTasks, currentUserId, currentUserRole, defaultScope = "ALL" }: TasksRegistryProps) {
+  const isAdmin = currentUserRole === "MANAGER" || currentUserRole === "LEGAL_SECRETARY";
+  const canEditTask = (task: any) => isAdmin || task.assignedToId === currentUserId;
+  const [taskScope, setTaskScope] = useState<"ALL" | "MINE">(defaultScope);
   const [tasks, setTasks] = useState(initialTasks);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -45,7 +51,9 @@ export default function TasksRegistry({ initialTasks }: TasksRegistryProps) {
     return t.dueDate && new Date(t.dueDate) < new Date();
   }).length;
 
-  const filteredTasks = tasks.filter(task => {
+  const scopedTasks = taskScope === "MINE" ? tasks.filter(t => t.assignedToId === currentUserId) : tasks;
+
+  const filteredTasks = scopedTasks.filter(task => {
     const matchesSearch =
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       task.assignedTo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -80,6 +88,28 @@ export default function TasksRegistry({ initialTasks }: TasksRegistryProps) {
 
   return (
     <div className="space-y-6 animate-fade-in" dir="rtl">
+
+      {/* ── SCOPE TABS ── */}
+      <div className="flex gap-2 bg-white border border-[#EADFD3] rounded-2xl p-2 w-fit shadow-sm">
+        <button
+          onClick={() => setTaskScope("ALL")}
+          className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${taskScope === "ALL" ? "bg-[#C5A059] text-white shadow-sm" : "text-slate-500 hover:text-[#1E293B]"}`}
+        >
+          مهام المكتب
+          <span className="mr-2 text-[10px] font-black px-1.5 py-0.5 rounded-full bg-white/20">
+            {tasks.length}
+          </span>
+        </button>
+        <button
+          onClick={() => setTaskScope("MINE")}
+          className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${taskScope === "MINE" ? "bg-[#C5A059] text-white shadow-sm" : "text-slate-500 hover:text-[#1E293B]"}`}
+        >
+          مهامي
+          <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${taskScope === "MINE" ? "bg-white/30 text-white" : "bg-[#C5A059] text-white"}`}>
+            {tasks.filter(t => t.assignedToId === currentUserId).length}
+          </span>
+        </button>
+      </div>
 
       {/* ── STATS CARDS ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -245,10 +275,10 @@ export default function TasksRegistry({ initialTasks }: TasksRegistryProps) {
                     };
 
                     return (
-                      <tr key={task.id} className="hover:bg-[#FAF8F5] transition-colors">
+                      <tr key={task.id} className="hover:bg-[#FAF8F5] transition-colors cursor-pointer" onClick={() => window.location.href = `/dashboard/tasks/${task.id}`}>
 
                         <td className="px-6 py-5">
-                          <Link href={`/dashboard/tasks/${task.id}`} className="font-bold text-[#1E293B] text-sm hover:text-[#C5A059] transition-colors">{task.title}</Link>
+                          <Link href={`/dashboard/tasks/${task.id}`} onClick={e => e.stopPropagation()} className="font-bold text-[#1E293B] text-sm hover:text-[#C5A059] transition-colors">{task.title}</Link>
                           {task.description && (
                             <p className="text-xs text-slate-400 mt-1 max-w-sm truncate">{task.description}</p>
                           )}
@@ -304,13 +334,17 @@ export default function TasksRegistry({ initialTasks }: TasksRegistryProps) {
 
                         <td className="px-6 py-5 text-left">
                           {task.status !== "DONE" && task.status !== "COMPLETED" ? (
-                            <button
-                              onClick={() => handleUpdateStatus(task.id, "DONE")}
-                              disabled={actionLoading === task.id}
-                              className="text-xs font-bold text-white bg-[#C5A059] hover:bg-[#b8944d] px-3.5 py-1.5 rounded-xl transition-all shadow-sm active:scale-95 disabled:opacity-50"
-                            >
-                              {actionLoading === task.id ? "إغلاق..." : "إغلاق المهمة"}
-                            </button>
+                            canEditTask(task) ? (
+                              <button
+                                onClick={() => handleUpdateStatus(task.id, "DONE")}
+                                disabled={actionLoading === task.id}
+                                className="text-xs font-bold text-white bg-[#C5A059] hover:bg-[#b8944d] px-3.5 py-1.5 rounded-xl transition-all shadow-sm active:scale-95 disabled:opacity-50"
+                              >
+                                {actionLoading === task.id ? "إغلاق..." : "إغلاق المهمة"}
+                              </button>
+                            ) : (
+                              <span className="text-xs text-slate-400 px-2.5 py-1 rounded-full border border-slate-200 bg-slate-50">قراءة فقط</span>
+                            )
                           ) : (
                             <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1 w-fit">
                               <CheckCircle2 className="w-3.5 h-3.5" />
