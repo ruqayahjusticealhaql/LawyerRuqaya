@@ -36,7 +36,7 @@ export default async function AboutPage() {
       />
 
       {/* ── ABOUT + IMAGE ── */}
-      <section className="relative bg-white rounded-t-[60px] -mt-10 z-10 py-24 overflow-hidden">
+      <section className="relative bg-white py-24 overflow-hidden">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "radial-gradient(#C5A059 1px, transparent 1px)", backgroundSize: "30px 30px" }} />
 
