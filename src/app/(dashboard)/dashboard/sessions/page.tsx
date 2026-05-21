@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { CASE_TYPE_LABELS } from "@/lib/utils";
-import { CalendarDays, Phone, ExternalLink, Plus } from "lucide-react";
+import { CalendarDays, Phone, ExternalLink, Plus, Clock, CheckCircle, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
 const DAY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
@@ -68,6 +68,12 @@ export default async function SessionsPage({
     where: { date: { gte: today }, case: { lawyerId: session.id } },
   });
 
+  const totalUpcoming = await prisma.hearingSession.count({ where: { date: { gte: today } } });
+  const totalPast     = await prisma.hearingSession.count({ where: { date: { lt: today } } });
+  const todaySessions = await prisma.hearingSession.count({
+    where: { date: { gte: today, lt: new Date(today.getTime() + 86400000) } },
+  });
+
   // Group sessions by date label
   const groupedByDate: Record<string, typeof sessions> = {};
   for (const s of sessions) {
@@ -77,16 +83,14 @@ export default async function SessionsPage({
   }
 
   return (
-    <div className="space-y-6 animate-fade-in" dir="rtl">
+    <div className="space-y-8 animate-fade-in" dir="rtl" style={{ fontFamily: "'Cairo', sans-serif" }}>
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <p className="text-sm font-semibold mb-1" style={{ color: "#C5A059" }}>المحاكم والمرافعات</p>
-          <h1 className="text-2xl font-bold" style={{ color: "#F8FAFC" }}>جدول الجلسات</h1>
-          <p className="text-sm mt-1" style={{ color: "#4A6080" }}>
-            {sessions.length} جلسة {showPast ? "سابقة" : "قادمة"}
-          </p>
+          <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: "#C5A059" }}>المحاكم والمرافعات</p>
+          <h1 className="text-3xl font-extrabold tracking-tight" style={{ color: "#F8FAFC" }}>إدارة الجلسات والمرافعات</h1>
+          <p className="text-sm mt-1" style={{ color: "#4A6080" }}>متابعة جلسات المحاكم وتنظيم مواعيد المرافعات القانونية</p>
         </div>
 
         {/* Scope Tabs */}
@@ -144,6 +148,27 @@ export default async function SessionsPage({
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { label: "إجمالي الجلسات القادمة", value: totalUpcoming, icon: <CalendarDays className="w-5 h-5" />, note: "متابعة وإنجاز مستمر", color: "#C5A059", bg: "rgba(197,160,89,0.08)", border: "rgba(197,160,89,0.2)" },
+          { label: "جلسات اليوم",             value: todaySessions, icon: <Clock className="w-5 h-5" />,        note: "تحتاج تحضير فوري",  color: "#F59E0B", bg: "rgba(245,158,11,0.08)", border: "rgba(245,158,11,0.2)" },
+          { label: "جلساتي القادمة",          value: mySessionsCount, icon: <CheckCircle className="w-5 h-5" />,  note: "أداء شخصي للفريق",  color: "#10B981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
+          { label: "الجلسات السابقة",         value: totalPast,     icon: <AlertCircle className="w-5 h-5" />,  note: "سجل المرافعات",     color: "#64748B", bg: "rgba(100,116,139,0.08)", border: "rgba(100,116,139,0.2)" },
+        ].map((stat, i) => (
+          <div key={i} className="rounded-2xl p-5" style={{ background: stat.bg, border: `1px solid ${stat.border}` }}>
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: stat.bg, color: stat.color, border: `1px solid ${stat.border}` }}>
+                {stat.icon}
+              </div>
+              <span className="text-3xl font-extrabold" style={{ color: stat.color }}>{stat.value}</span>
+            </div>
+            <p className="text-sm font-bold" style={{ color: "#F8FAFC" }}>{stat.label}</p>
+            <p className="text-xs mt-0.5" style={{ color: "#4A6080" }}>• {stat.note}</p>
+          </div>
+        ))}
       </div>
 
       {/* Table Card */}
