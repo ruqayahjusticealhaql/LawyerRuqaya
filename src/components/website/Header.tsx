@@ -29,6 +29,7 @@ export default function WebsiteHeader({ phone }: { phone?: string }) {
   const telLink = `tel:${displayPhone.replace(/\s/g, "")}`;
 
   return (
+    <>
     <header
       className="fixed top-0 right-0 left-0 z-50 transition-all duration-300"
       style={scrolled ? {
@@ -155,5 +156,6 @@ export default function WebsiteHeader({ phone }: { phone?: string }) {
       </div>
     </header>
     {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+    </>
   );
 }
