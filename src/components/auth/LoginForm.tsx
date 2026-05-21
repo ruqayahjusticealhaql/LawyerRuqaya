@@ -55,38 +55,6 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
 
-      {/* Quick Access — TOP */}
-      <div>
-        <p className="text-xs font-bold mb-3 text-center" style={{ color: "#D4A373" }}>🔑 دخول سريع:</p>
-        <div className="grid grid-cols-2 gap-2 text-xs mb-2">
-          {[
-            { name: "المدير العام",      role: "صلاحيات مطلقة",    email: "ruqayyah@lawoffice.sa",  pass: "admin123" },
-            { name: "مدير المحتوى",      role: "الموقع الإلكتروني", email: "content@lawoffice.sa",   pass: "admin123" },
-            { name: "السكرتير القانوني", role: "تنظيم وجدولة",     email: "secretary@lawoffice.sa", pass: "secretary123" },
-            { name: "محامية: حصة",       role: "محامي",             email: "lawyer1@lawoffice.sa",   pass: "lawyer123" },
-            { name: "محامي: عبدالله",    role: "محامي",             email: "lawyer2@lawoffice.sa",   pass: "lawyer123" },
-            { name: "محامي: فردان",      role: "محامي",             email: "lawyer3@lawoffice.sa",   pass: "lawyer123" },
-            { name: "محامي: معاذ",       role: "محامي",             email: "lawyer4@lawoffice.sa",   pass: "lawyer123" },
-          ].map((u) => (
-            <div
-              key={u.email}
-              onClick={() => setForm({ email: u.email, password: u.pass })}
-              className="p-3 rounded-xl cursor-pointer transition-all duration-200 text-center"
-              style={{
-                background: form.email === u.email ? "rgba(212,163,115,0.12)" : "rgba(255,255,255,0.02)",
-                border: form.email === u.email ? "1px solid rgba(212,163,115,0.4)" : "1px solid rgba(255,255,255,0.05)",
-              }}
-              onMouseEnter={(e) => { if (form.email !== u.email) { e.currentTarget.style.background = "rgba(212,163,115,0.05)"; e.currentTarget.style.borderColor = "rgba(212,163,115,0.2)"; } }}
-              onMouseLeave={(e) => { if (form.email !== u.email) { e.currentTarget.style.background = "rgba(255,255,255,0.02)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.05)"; } }}
-            >
-              <div className="font-bold mb-0.5" style={{ color: "#F8FAFC" }}>{u.name}</div>
-              <div style={{ color: "#4A6080" }}>{u.role}</div>
-            </div>
-          ))}
-        </div>
-        <div className="h-px my-4" style={{ background: "rgba(255,255,255,0.06)" }} />
-      </div>
-
       {/* Email */}
       <div>
         <label className="label">البريد الإلكتروني</label>
