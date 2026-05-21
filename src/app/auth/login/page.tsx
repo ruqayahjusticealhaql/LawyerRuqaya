@@ -22,20 +22,8 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="relative">
-          <Link href="/" className="flex items-center gap-3">
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center"
-              style={{
-                background: "linear-gradient(135deg, #C9975B, #D4A373, #E6B980)",
-                boxShadow: "0 4px 20px rgba(212,163,115,0.3)",
-              }}
-            >
-              <Scale className="w-6 h-6" style={{ color: "#1a1000" }} />
-            </div>
-            <div>
-              <div className="font-bold" style={{ color: "#F8FAFC" }}>شركة رقية</div>
-              <div className="text-sm font-semibold" style={{ color: "#D4A373" }}>عبدالرحمن للمحاماة</div>
-            </div>
+          <Link href="/">
+            <img src="/images/logo.png" alt="شركة رقية عبدالرحمن للمحاماة" className="h-20 w-auto object-contain" />
           </Link>
         </div>
 
