@@ -4,10 +4,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  experimental: {
+experimental: {
     serverActions: {
       allowedOrigins: ["localhost:3000", "lawyer-ruqaya-abdulrahman-pjtk.vercel.app"],
     },
