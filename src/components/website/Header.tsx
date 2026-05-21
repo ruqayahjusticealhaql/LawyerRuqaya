@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
+import LoginModal from "@/components/website/LoginModal";
 
 const navLinks = [
   { href: "/",        label: "الرئيسية" },
@@ -15,6 +16,7 @@ const navLinks = [
 export default function WebsiteHeader({ phone }: { phone?: string }) {
   const [isOpen, setIsOpen]   = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const pathname              = usePathname();
 
   useEffect(() => {
@@ -99,9 +101,9 @@ export default function WebsiteHeader({ phone }: { phone?: string }) {
               <Phone className="w-4 h-4" />
               <span dir="ltr">{displayPhone}</span>
             </a>
-            <Link href="/auth/login" className="btn-gold text-sm px-5 py-2">
+            <button onClick={() => setShowLogin(true)} className="btn-gold text-sm px-5 py-2">
               تسجيل الدخول
-            </Link>
+            </button>
           </div>
 
           {/* Mobile toggle */}
@@ -143,14 +145,15 @@ export default function WebsiteHeader({ phone }: { phone?: string }) {
                 <Phone className="w-4 h-4" /><span dir="ltr">{displayPhone}</span>
               </a>
               <div className="mt-2 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-                <Link href="/auth/login" onClick={() => setIsOpen(false)} className="btn-gold w-full text-sm justify-center">
+                <button onClick={() => { setIsOpen(false); setShowLogin(true); }} className="btn-gold w-full text-sm justify-center">
                   تسجيل الدخول
-                </Link>
+                </button>
               </div>
             </nav>
           </div>
         )}
       </div>
     </header>
+    {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
   );
 }
