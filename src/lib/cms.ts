@@ -41,8 +41,8 @@ export type CmsAnnouncement = {
 };
 
 export type CmsBlogPost = {
-  id: string; title: string; excerpt: string; content: string;
-  published: boolean; createdAt: string;
+  id: string; title: string; slug?: string; excerpt: string; content: string;
+  published: boolean; createdAt: string; category?: string; imageUrl?: string;
 };
 
 export type CmsData = {

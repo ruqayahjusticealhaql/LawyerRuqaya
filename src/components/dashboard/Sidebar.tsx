@@ -95,14 +95,13 @@ export default function DashboardSidebar({ user }: { user: SessionUser }) {
                 background: "linear-gradient(135deg, #C5A059 0%, #D4A373 50%, #E6B980 100%)",
                 boxShadow: "0 4px 16px rgba(197, 160, 89, 0.25)",
                 color: "#0B1325",
-              } : {}}
+              } : { color: "rgba(255,255,255,0.4)" }}
 
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 font-medium text-sm ${
                 isActive
                   ? "font-bold"
                   : "hover:bg-white/5"
               }`}
-              {...(!isActive ? { style: { color: "rgba(255,255,255,0.4)" } } : {})}
             >
               <span className="flex-shrink-0">{item.icon}</span>
               {!collapsed && <span>{item.label}</span>}

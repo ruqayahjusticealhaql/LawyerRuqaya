@@ -152,7 +152,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
                   <div style={s(0.7)}>
                     <Link href={slide.buttons[0].link}>
                       <button className="px-10 py-3 font-bold text-base border-2 border-white text-white hover:bg-white hover:text-[#0B1325] rounded-md transition-all">
-                        {slide.buttons[0].text}
+                        {String(slide.buttons[0].text)}
                       </button>
                     </Link>
                   </div>
@@ -173,7 +173,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
                     {slide.buttons.map((btn, bIdx) => (
                       <Link href={btn.link} key={bIdx}>
                         <button className={`px-8 py-3 font-bold text-base rounded-md transition-all ${btn.style === "filled" ? "bg-[#C5A059] text-white hover:bg-[#B48F48]" : "border-2 border-white text-white hover:bg-white hover:text-[#0B1325]"}`}>
-                          {btn.text}
+                          {String(btn.text)}
                         </button>
                       </Link>
                     ))}

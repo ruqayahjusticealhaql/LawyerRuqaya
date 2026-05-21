@@ -45,7 +45,7 @@ export default function TaskDetailClient({ task, users, currentUserId }: Props) 
     try {
       const res = await createSubTask(task.id, { title: subTitle, assignedToId: subAssignee, dueDate: subDue || undefined });
       if (res.success) {
-        setSubTasks(prev => [...prev, { ...res.subTask, assignedTo: users.find(u => u.id === subAssignee) || { id: subAssignee, name: "" } }]);
+        setSubTasks(prev => [...prev, { ...res.subTask, dueDate: res.subTask.dueDate ? String(res.subTask.dueDate) : null, assignedTo: users.find(u => u.id === subAssignee) || { id: subAssignee, name: "" } } as any]);
         setSubTitle(""); setSubDue(""); setShowSubForm(false);
         router.refresh();
       }

@@ -21,7 +21,7 @@ type Setting = {
 };
 type Service = { id: string; title: string; description?: string; icon?: string; imageUrl?: string; bullets?: string; order: number; active: boolean; };
 type Section = { id: string; type: string; page: string; title?: string; content: string; order: number; active: boolean; };
-type BlogPost = { id: string; title: string; slug: string; excerpt?: string; content: string; published: boolean; createdAt: string; };
+type BlogPost = { id: string; title: string; slug?: string; excerpt?: string; content: string; published: boolean; createdAt: string; category?: string; imageUrl?: string; };
 type Announcement = { id: string; title: string; content: string; active: boolean; };
 
 const TABS = [
