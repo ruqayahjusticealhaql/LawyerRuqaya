@@ -98,14 +98,14 @@ export default async function SessionsPage({
           <Link
             href={`/dashboard/sessions${showPast ? "?view=past" : ""}`}
             className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${!isMine ? "text-white shadow-sm" : "border border-white/10 hover:border-[#C5A059]"}`}
-            style={!isMine ? { background: "linear-gradient(135deg,#C5A059,#D4A373)", color: "#0B1325" } : { color: "#CBD5E1", border: "1px solid rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.05)" }}
+            style={!isMine ? { background: "linear-gradient(135deg,#C5A059,#D4A373)", color: "#0B1325" } : { color: "#F1F5F9", border: "1.5px solid #C5A059", background: "rgba(197,160,89,0.08)" }}
           >
             جلسات المكتب
           </Link>
           <Link
             href={`/dashboard/sessions?scope=mine${showPast ? "&view=past" : ""}`}
             className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${isMine ? "text-white shadow-sm" : "border border-white/10 hover:border-[#C5A059]"}`}
-            style={isMine ? { background: "linear-gradient(135deg,#C5A059,#D4A373)", color: "#0B1325" } : { color: "#CBD5E1", border: "1px solid rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.05)" }}
+            style={isMine ? { background: "linear-gradient(135deg,#C5A059,#D4A373)", color: "#0B1325" } : { color: "#F1F5F9", border: "1.5px solid #C5A059", background: "rgba(197,160,89,0.08)" }}
           >
             جلساتي
             <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${isMine ? "bg-black/20 text-[#0B1325]" : "bg-white/15 text-white"}`}>{mySessionsCount}</span>
@@ -125,13 +125,13 @@ export default async function SessionsPage({
             </Link>
           )}
 
-          <div className="flex gap-1.5 p-1 bg-white/5 rounded-xl border border-white/10">
+          <div className="flex gap-1.5 p-1 rounded-xl" style={{ background: "rgba(197,160,89,0.08)", border: "1.5px solid #C5A059" }}>
             <Link
               href="/dashboard/sessions"
               className="px-4 py-1.5 rounded-lg text-sm font-bold transition-all"
               style={!showPast
                 ? { background: "rgba(255,255,255,0.15)", color: "#F8FAFC" }
-                : { color: "#94A3B8", background: "rgba(255,255,255,0.03)" }
+                : { color: "#F1F5F9" }
               }
             >
               القادمة
@@ -141,7 +141,7 @@ export default async function SessionsPage({
               className="px-4 py-1.5 rounded-lg text-sm font-bold transition-all"
               style={showPast
                 ? { background: "rgba(255,255,255,0.15)", color: "#F8FAFC" }
-                : { color: "#94A3B8", background: "rgba(255,255,255,0.03)" }
+                : { color: "#F1F5F9" }
               }
             >
               السابقة
