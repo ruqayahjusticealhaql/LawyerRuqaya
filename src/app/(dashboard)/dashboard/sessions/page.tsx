@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { CASE_TYPE_LABELS } from "@/lib/utils";
-import { CalendarDays, Phone, ExternalLink, Plus, Clock, CheckCircle, AlertCircle } from "lucide-react";
+import { CalendarDays, Phone, ExternalLink, Plus, Clock, CheckCircle2, AlertCircle, List } from "lucide-react";
 import Link from "next/link";
 
 const DAY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
@@ -74,174 +74,180 @@ export default async function SessionsPage({
     where: { date: { gte: today, lt: new Date(today.getTime() + 86400000) } },
   });
 
-  // Group sessions by date label
-  const groupedByDate: Record<string, typeof sessions> = {};
-  for (const s of sessions) {
-    const label = formatSessionDate(new Date(s.date));
-    if (!groupedByDate[label]) groupedByDate[label] = [];
-    groupedByDate[label].push(s);
-  }
-
   return (
-    <div className="space-y-8 animate-fade-in" dir="rtl" style={{ fontFamily: "'Cairo', sans-serif" }}>
+    <div className="space-y-6 animate-fade-in" dir="rtl" style={{ fontFamily: "'Cairo', sans-serif" }}>
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: "#C5A059" }}>المحاكم والمرافعات</p>
-          <h1 className="text-3xl font-extrabold tracking-tight" style={{ color: "#F8FAFC" }}>إدارة الجلسات والمرافعات</h1>
-          <p className="text-sm mt-1" style={{ color: "#4A6080" }}>متابعة جلسات المحاكم وتنظيم مواعيد المرافعات القانونية</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#1E293B]">إدارة الجلسات والمرافعات</h1>
+          <p className="text-sm mt-1 text-slate-500">متابعة جلسات المحاكم وتنظيم مواعيد المرافعات القانونية</p>
         </div>
 
-        {/* Scope Tabs */}
-        <div className="flex gap-2">
+        {["MANAGER", "LEGAL_SECRETARY", "LAWYER"].includes(session.role) && (
           <Link
-            href={`/dashboard/sessions${showPast ? "?view=past" : ""}`}
-            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${!isMine ? "text-white shadow-sm" : "border border-white/10 hover:border-[#C5A059]"}`}
-            style={!isMine ? { background: "linear-gradient(135deg,#C5A059,#D4A373)", color: "#0B1325" } : { color: "#0B1325", border: "1.5px solid #C5A059", background: "rgba(197,160,89,0.55)" }}
+            href="/dashboard/sessions/new"
+            className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 hover:opacity-90 shadow-sm"
+            style={{ background: "#C5A059", color: "#fff" }}
           >
-            جلسات المكتب
+            <Plus className="w-4 h-4" />
+            إضافة جلسة جديدة
           </Link>
-          <Link
-            href={`/dashboard/sessions?scope=mine${showPast ? "&view=past" : ""}`}
-            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${isMine ? "text-white shadow-sm" : "border border-white/10 hover:border-[#C5A059]"}`}
-            style={isMine ? { background: "linear-gradient(135deg,#C5A059,#D4A373)", color: "#0B1325" } : { color: "#0B1325", border: "1.5px solid #C5A059", background: "rgba(197,160,89,0.55)" }}
-          >
-            جلساتي
-            <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${isMine ? "bg-black/20 text-[#0B1325]" : "bg-white/15 text-white"}`}>{mySessionsCount}</span>
-          </Link>
+        )}
+      </div>
+
+      {/* Scope Tabs */}
+      <div className="flex gap-2 bg-white border border-[#EADFD3] rounded-2xl p-2 w-fit shadow-sm">
+        <Link
+          href={`/dashboard/sessions${showPast ? "?view=past" : ""}`}
+          className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${!isMine ? "bg-[#C5A059] text-white shadow-sm" : "text-slate-500 hover:text-[#1E293B]"}`}
+        >
+          جلسات المكتب
+          <span className={`mr-2 text-[10px] font-black px-1.5 py-0.5 rounded-full ${!isMine ? "bg-white/30 text-white" : "bg-[#C5A059] text-white"}`}>
+            {totalUpcoming}
+          </span>
+        </Link>
+        <Link
+          href={`/dashboard/sessions?scope=mine${showPast ? "&view=past" : ""}`}
+          className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${isMine ? "bg-[#C5A059] text-white shadow-sm" : "text-slate-500 hover:text-[#1E293B]"}`}
+        >
+          جلساتي
+          <span className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${isMine ? "bg-white/30 text-white" : "bg-[#C5A059] text-white"}`}>
+            {mySessionsCount}
+          </span>
+        </Link>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <div className="bg-white border border-[#EADFD3] rounded-2xl p-5 shadow-sm hover:shadow-md transition-all">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-slate-500">إجمالي الجلسات القادمة</p>
+              <p className="text-3xl font-black text-[#1E293B] mt-1">{totalUpcoming}</p>
+            </div>
+            <div className="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500">
+              <List className="w-5 h-5" />
+            </div>
+          </div>
+          <p className="mt-3 text-[11px] font-bold text-[#C5A059]">متابعة وتوجيه كادر المكتب</p>
         </div>
 
-        {/* Action Buttons & Toggle past/upcoming */}
-        <div className="flex flex-wrap items-center gap-3">
-          {["MANAGER", "LEGAL_SECRETARY", "LAWYER"].includes(session.role) && (
-            <Link
-              href="/dashboard/sessions/new"
-              className="px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-1.5 transform hover:scale-105"
-              style={{ background: "linear-gradient(135deg,#C5A059,#D4A373)", color: "#0B1325", boxShadow: "0 4px 16px rgba(197, 160, 89, 0.2)" }}
-            >
-              <Plus className="w-4 h-4" />
-              إضافة جلسة جديدة
-            </Link>
-          )}
+        <div className="bg-white border border-[#EADFD3] rounded-2xl p-5 shadow-sm hover:shadow-md transition-all">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-slate-500">جلسات اليوم</p>
+              <p className="text-3xl font-black text-amber-500 mt-1">{todaySessions}</p>
+            </div>
+            <div className="w-11 h-11 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-500">
+              <Clock className="w-5 h-5" />
+            </div>
+          </div>
+          <p className="mt-3 text-[11px] font-semibold text-slate-400">تتطلب تحضيراً فورياً</p>
+        </div>
 
-          <div className="flex gap-1.5 p-1 rounded-xl" style={{ background: "rgba(197,160,89,0.08)", border: "1.5px solid #C5A059" }}>
+        <div className="bg-white border border-[#EADFD3] rounded-2xl p-5 shadow-sm hover:shadow-md transition-all">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-slate-500">جلساتي القادمة</p>
+              <p className="text-3xl font-black text-emerald-600 mt-1">{mySessionsCount}</p>
+            </div>
+            <div className="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-500">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="mt-3 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <p className="text-[11px] font-bold text-emerald-600">أداء شخصي للفريق</p>
+          </div>
+        </div>
+
+        <div className="bg-white border border-[#EADFD3] rounded-2xl p-5 shadow-sm hover:shadow-md transition-all">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-slate-500">الجلسات السابقة</p>
+              <p className="text-3xl font-black text-slate-400 mt-1">{totalPast}</p>
+            </div>
+            <div className="w-11 h-11 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400">
+              <AlertCircle className="w-5 h-5" />
+            </div>
+          </div>
+          <p className="mt-3 text-[11px] font-semibold text-slate-400">سجل المرافعات</p>
+        </div>
+
+      </div>
+
+      {/* Past/Upcoming Toggle + Table */}
+      <div className="bg-white border border-[#EADFD3] rounded-2xl overflow-hidden shadow-sm">
+
+        {/* Toggle bar */}
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-[#EADFD3] bg-[#FAF8F5]">
+          <div className="flex border border-[#EADFD3] rounded-xl overflow-hidden p-0.5 bg-white">
             <Link
-              href="/dashboard/sessions"
-              className="px-4 py-1.5 rounded-lg text-sm font-bold transition-all"
-              style={!showPast
-                ? { background: "rgba(255,255,255,0.15)", color: "#F8FAFC" }
-                : { color: "#0B1325" }
-              }
+              href={isMine ? "/dashboard/sessions?scope=mine" : "/dashboard/sessions"}
+              className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-all ${!showPast ? "bg-[#C5A059] text-white" : "text-slate-500 hover:text-[#1E293B]"}`}
             >
               القادمة
             </Link>
             <Link
-              href="/dashboard/sessions?view=past"
-              className="px-4 py-1.5 rounded-lg text-sm font-bold transition-all"
-              style={showPast
-                ? { background: "rgba(255,255,255,0.15)", color: "#F8FAFC" }
-                : { color: "#0B1325" }
-              }
+              href={isMine ? "/dashboard/sessions?scope=mine&view=past" : "/dashboard/sessions?view=past"}
+              className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-all ${showPast ? "bg-[#C5A059] text-white" : "text-slate-500 hover:text-[#1E293B]"}`}
             >
               السابقة
             </Link>
           </div>
+          <span className="text-xs text-slate-400 font-semibold">
+            {sessions.length} جلسة {showPast ? "سابقة" : "قادمة"}
+          </span>
         </div>
-      </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { label: "إجمالي الجلسات القادمة", value: totalUpcoming, icon: <CalendarDays className="w-5 h-5" />, note: "متابعة وإنجاز مستمر", color: "#C5A059", bg: "rgba(197,160,89,0.08)", border: "rgba(197,160,89,0.2)" },
-          { label: "جلسات اليوم",             value: todaySessions, icon: <Clock className="w-5 h-5" />,        note: "تحتاج تحضير فوري",  color: "#F59E0B", bg: "rgba(245,158,11,0.08)", border: "rgba(245,158,11,0.2)" },
-          { label: "جلساتي القادمة",          value: mySessionsCount, icon: <CheckCircle className="w-5 h-5" />,  note: "أداء شخصي للفريق",  color: "#10B981", bg: "rgba(16,185,129,0.08)", border: "rgba(16,185,129,0.2)" },
-          { label: "الجلسات السابقة",         value: totalPast,     icon: <AlertCircle className="w-5 h-5" />,  note: "سجل المرافعات",     color: "#64748B", bg: "rgba(100,116,139,0.08)", border: "rgba(100,116,139,0.2)" },
-        ].map((stat, i) => (
-          <div key={i} className="rounded-2xl p-5" style={{ background: stat.bg, border: `1px solid ${stat.border}` }}>
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: stat.bg, color: stat.color, border: `1px solid ${stat.border}` }}>
-                {stat.icon}
-              </div>
-              <span className="text-3xl font-extrabold" style={{ color: stat.color }}>{stat.value}</span>
-            </div>
-            <p className="text-sm font-bold" style={{ color: "#F8FAFC" }}>{stat.label}</p>
-            <p className="text-xs mt-0.5" style={{ color: "#4A6080" }}>• {stat.note}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Table Card */}
-      <div className="rounded-2xl overflow-hidden shadow-lg" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="overflow-x-auto">
-          <table className="w-full text-right border-collapse" style={{ background: "#111A2E" }}>
-
-            {/* Table Head */}
+          <table className="w-full text-right border-collapse text-sm">
             <thead>
-              <tr style={{ background: "#0B1325", borderBottom: "2px solid #C5A059" }}>
+              <tr className="bg-[#FAF8F5] border-b border-[#EADFD3]">
                 {["رقم القضية", "اسم العميل", "اليوم", "تاريخ الجلسة", "الوقت", "نوع القضية", "الملاحظات"].map((h) => (
-                  <th
-                    key={h}
-                    className="px-4 py-3 text-xs font-bold tracking-wide"
-                    style={{ color: "#C5A059" }}
-                  >
-                    {h}
-                  </th>
+                  <th key={h} className="px-6 py-4 font-bold text-slate-500 text-xs">{h}</th>
                 ))}
               </tr>
             </thead>
-
-            <tbody>
+            <tbody className="divide-y divide-[#EADFD3]">
               {sessions.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-20 text-center">
-                    <CalendarDays className="w-12 h-12 mx-auto mb-3" style={{ color: "rgba(255,255,255,0.1)" }} />
-                    <p className="text-sm" style={{ color: "rgba(255,255,255,0.2)" }}>
-                      لا توجد جلسات {showPast ? "سابقة" : "قادمة"}
-                    </p>
+                  <td colSpan={7} className="text-center py-16 text-slate-400 font-semibold">
+                    لا توجد جلسات {showPast ? "سابقة" : "قادمة"}
                   </td>
                 </tr>
               ) : (
-                sessions.map((s, idx) => {
+                sessions.map((s) => {
                   const d = new Date(s.date);
                   const dayName = getArabicDay(d);
                   const dayStyle = DAY_COLORS[dayName] || { bg: "#F3F4F6", text: "#374151", border: "#E5E7EB" };
-                  const isOdd = idx % 2 !== 0;
 
                   return (
-                    <tr
-                      key={s.id}
-                      style={{
-                        background: isOdd ? "rgba(255,255,255,0.02)" : "transparent",
-                        borderBottom: "1px solid rgba(255,255,255,0.04)",
-                      }}
-                      className="hover:bg-white/5 transition-colors"
-                    >
-                      {/* Case Number */}
-                      <td className="px-4 py-3">
+                    <tr key={s.id} className="hover:bg-[#FAF8F5] transition-colors">
+
+                      <td className="px-6 py-4">
                         <Link
                           href={`/dashboard/cases/${s.case.id}`}
-                          className="font-bold text-sm transition-colors hover:underline"
-                          style={{ color: "#C5A059" }}
+                          className="font-bold text-sm text-[#C5A059] hover:underline"
                         >
                           {s.case.caseNumber}
                         </Link>
                       </td>
 
-                      {/* Client */}
-                      <td className="px-4 py-3">
+                      <td className="px-6 py-4">
                         <Link
                           href={`/dashboard/clients/${s.case.clientId}`}
-                          className="font-semibold text-sm transition-colors hover:underline block"
-                          style={{ color: "#F1F5F9" }}
+                          className="font-bold text-sm text-[#1E293B] hover:text-[#C5A059] transition-colors block"
                         >
                           {s.case.client.name}
                         </Link>
                         {s.case.client.phone && (
                           <a
                             href={`tel:${s.case.client.phone}`}
-                            className="flex items-center gap-1 text-xs mt-0.5 hover:underline"
-                            style={{ color: "#64748B" }}
+                            className="flex items-center gap-1 text-xs mt-0.5 text-slate-400 hover:underline"
                           >
                             <Phone className="w-3 h-3" />
                             <span dir="ltr">{s.case.client.phone}</span>
@@ -249,46 +255,37 @@ export default async function SessionsPage({
                         )}
                       </td>
 
-                      {/* Day */}
-                      <td className="px-4 py-3">
+                      <td className="px-6 py-4">
                         <span
                           className="px-2.5 py-1 rounded-full text-xs font-bold"
-                          style={{
-                            background: dayStyle.bg,
-                            color: dayStyle.text,
-                            border: `1px solid ${dayStyle.border}`,
-                          }}
+                          style={{ background: dayStyle.bg, color: dayStyle.text, border: `1px solid ${dayStyle.border}` }}
                         >
                           {dayName}
                         </span>
                       </td>
 
-                      {/* Date */}
-                      <td className="px-4 py-3 text-sm font-bold" style={{ color: "#94A3B8" }} dir="ltr">
+                      <td className="px-6 py-4 text-sm font-bold text-slate-500" dir="ltr">
                         {formatSessionDate(d)}
                       </td>
 
-                      {/* Time */}
-                      <td className="px-4 py-3 text-sm font-bold" style={{ color: "#F1F5F9" }} dir="ltr">
+                      <td className="px-6 py-4 text-sm font-bold text-[#1E293B]" dir="ltr">
                         {formatSessionTime(d)}
                       </td>
 
-                      {/* Case Type */}
-                      <td className="px-4 py-3">
-                        <span className="text-xs font-semibold" style={{ color: "#94A3B8" }}>
+                      <td className="px-6 py-4">
+                        <span className="text-xs font-semibold text-slate-500">
                           {CASE_TYPE_LABELS[s.case.type] || s.case.type}
                         </span>
                       </td>
 
-                      {/* Notes */}
-                      <td className="px-4 py-3 text-xs max-w-[220px]" style={{ color: "#64748B" }}>
+                      <td className="px-6 py-4 text-xs max-w-[220px] text-slate-400">
                         {s.notes ? (
                           s.notes.startsWith("http") ? (
                             <a
                               href={s.notes}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-1 text-blue-400 hover:underline truncate"
+                              className="flex items-center gap-1 text-blue-500 hover:underline truncate"
                             >
                               <ExternalLink className="w-3 h-3 flex-shrink-0" />
                               <span className="truncate">{s.notes}</span>
@@ -297,7 +294,7 @@ export default async function SessionsPage({
                             <span>{s.notes}</span>
                           )
                         ) : (
-                          <span style={{ color: "rgba(255,255,255,0.1)" }}>—</span>
+                          <span className="text-slate-300">—</span>
                         )}
                       </td>
                     </tr>
@@ -308,16 +305,10 @@ export default async function SessionsPage({
           </table>
         </div>
 
-        {/* Footer summary */}
         {sessions.length > 0 && (
-          <div
-            className="px-6 py-3 flex items-center justify-between text-xs"
-            style={{ background: "#0B1325", borderTop: "1px solid rgba(255,255,255,0.05)", color: "#4A6080" }}
-          >
+          <div className="px-6 py-3 flex items-center justify-between text-xs text-slate-400 border-t border-[#EADFD3] bg-[#FAF8F5]">
             <span>إجمالي الجلسات: {sessions.length}</span>
-            <span>
-              العملاء المعنيون: {new Set(sessions.map(s => s.case.clientId)).size}
-            </span>
+            <span>العملاء المعنيون: {new Set(sessions.map(s => s.case.clientId)).size}</span>
           </div>
         )}
       </div>
