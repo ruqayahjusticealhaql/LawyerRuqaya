@@ -74,7 +74,7 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
         <div className="text-center mb-6">
           <img src="/images/logo.png" alt="شركة رقية" className="h-16 w-auto object-contain mx-auto mb-3" />
           <h2 className="text-xl font-bold" style={{ color: "#F8FAFC" }}>تسجيل الدخول</h2>
-          <p className="text-sm mt-1" style={{ color: "#4A6080" }}>سجّل دخولك للوصول إلى لوحة التحكم</p>
+
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
