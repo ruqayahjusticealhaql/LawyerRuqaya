@@ -19,7 +19,6 @@ export default function NewNewsPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     alert("تم حفظ الخبر ونشره في الموقع (محاكاة - سيتم ربط قاعدة البيانات لاحقاً بناءً على طلبك)");
-    console.log("News Data:", formData);
   };
 
   return (

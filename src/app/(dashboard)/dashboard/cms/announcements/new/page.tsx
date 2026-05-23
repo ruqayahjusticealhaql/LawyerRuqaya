@@ -18,7 +18,6 @@ export default function NewAnnouncementPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     alert("تم حفظ الإعلان ونشره كبانر في الموقع (محاكاة - سيتم ربط قاعدة البيانات لاحقاً بناءً على طلبك)");
-    console.log("Announcement Data:", formData);
   };
 
   return (

@@ -6,7 +6,7 @@ import { Eye, EyeOff, LogIn, AlertCircle } from "lucide-react";
 
 export default function LoginForm() {
   const router = useRouter();
-  const [form, setForm]       = useState({ email: "ruqayyah@lawoffice.sa", password: "admin123" });
+  const [form, setForm]       = useState({ email: "", password: "" });
   const [showPass, setShowPass] = useState(false);
   const [status, setStatus]   = useState<"idle" | "loading" | "error">("idle");
   const [error, setError]     = useState("");

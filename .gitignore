@@ -23,7 +23,13 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
+.env.*
 .env*.local
+
+# project notes (contains sensitive data)
+PROJECT_NOTES.md
+check-user.ts
 
 # vercel
 .vercel

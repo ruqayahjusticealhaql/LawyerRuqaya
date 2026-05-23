@@ -17,27 +17,18 @@ async function main() {
     where: { role: "EXECUTIVE" },
     data: { role: "MANAGER" },
   });
-  const managerPassword        = await bcrypt.hash("admin123",     12);
-  const contentPassword        = await bcrypt.hash("admin123",     12);
-  const legalSecretaryPassword = await bcrypt.hash("secretary123", 12);
-  const lawyerPassword         = await bcrypt.hash("lawyer123",    12);
+  const adminPassword     = await bcrypt.hash("Admin@2024", 12);
+  const secretaryPassword = await bcrypt.hash("Admin@2024", 12);
+  const lawyerPassword    = await bcrypt.hash("Admin@2024", 12);
 
   const accounts = [
     // ── المدير ──────────────────────────────────────────────────────
     {
-      email:    "ruqayyah@lawoffice.sa",
+      email:    "admin@lawoffice.sa",
       name:     "رقية عبدالرحمن",
       role:     "MANAGER",
       phone:    "0538225224",
-      password: managerPassword,
-    },
-    // ── مدير المحتوى ─────────────────────────────────────────────────
-    {
-      email:    "content@lawoffice.sa",
-      name:     "مدير المحتوى",
-      role:     "MANAGER",
-      phone:    "",
-      password: contentPassword,
+      password: adminPassword,
     },
     // ── السكرتير القانوني ────────────────────────────────────────────
     {
@@ -45,32 +36,32 @@ async function main() {
       name:     "نورة",
       role:     "LEGAL_SECRETARY",
       phone:    "",
-      password: legalSecretaryPassword,
+      password: secretaryPassword,
     },
     // ── المحامون (4 حسابات) ──────────────────────────────────────────
     {
-      email:    "lawyer1@lawoffice.sa",
+      email:    "hessa@lawoffice.sa",
       name:     "حصة",
       role:     "LAWYER",
       phone:    "",
       password: lawyerPassword,
     },
     {
-      email:    "lawyer2@lawoffice.sa",
+      email:    "abdullah@lawoffice.sa",
       name:     "عبدالله",
       role:     "LAWYER",
       phone:    "",
       password: lawyerPassword,
     },
     {
-      email:    "lawyer3@lawoffice.sa",
+      email:    "fardan@lawoffice.sa",
       name:     "فردان",
       role:     "LAWYER",
       phone:    "",
       password: lawyerPassword,
     },
     {
-      email:    "lawyer4@lawoffice.sa",
+      email:    "moath@lawoffice.sa",
       name:     "معاذ",
       role:     "LAWYER",
       phone:    "",
@@ -93,7 +84,7 @@ async function main() {
     create: { name: "عميل تجريبي", nationalId: "1000000000", phone: "0599999999" },
   });
 
-  console.log("✅ تم بناء الحسابات: مدير + سكرتير قانوني + 4 محامين");
+  console.log("✅ تم بناء الحسابات: مدير + سكرتير قانوني + 4 محامين (admin / secretary / hessa / abdullah / fardan / moath)");
 }
 
 main()
