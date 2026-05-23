@@ -55,9 +55,9 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
     {
       layout: "centered",
       showLogo: true,
-      title: "مكتب المحامية رقية عبدالرحمن",
+      title: "مكتب المحامية رقية عبدالرحمن للمحاماة والاستشارات القانونية في السعودية",
       subtitle: cmsData.settings.slogan || "ندافع عن حقك، لأنك تستحقه",
-      desc: "خبرة واسعة في تقديم الاستشارات القانونية والشرعية وصياغة العقود وتمثيل موكلينا أمام جميع المحاكم والجهات القضائية.",
+      desc: "خبرة واسعة ونخبة متخصصة في تقديم الاستشارات القانونية والشرعية، صياغة العقود والاتفاقيات، وتمثيل ومساندة موكلينا أمام جميع المحاكم والجهات القضائية لضمان حقوقكم وحمايتها بأعلى معايير الكفاءة والسرية.",
       img: "/images/hero-desk.jpg",
       buttons: [
         { text: "استكشف المزيد", link: "/services", style: "filled" },
@@ -161,7 +161,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
                 <>
                   {slide.showLogo && (
                     <div style={sd(0)} className="mb-8 text-center mx-auto flex flex-col items-center">
-                      <img src="/images/logo.png" alt="شعار مكتب المحامية رقية عبدالرحمن" className="w-64 md:w-80 h-auto object-contain mb-4" />
+                      <img src="/images/logo.png" alt="مكتب المحامية رقية عبدالرحمن للمحاماة والاستشارات القانونية" className="w-64 md:w-80 h-auto object-contain mb-4" />
                     </div>
                   )}
                   {(slide as any).topText && (
