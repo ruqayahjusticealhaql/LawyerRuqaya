@@ -30,6 +30,14 @@ async function main() {
       phone:    "0538225224",
       password: adminPassword,
     },
+    // ── مدير المحتوى ─────────────────────────────────────────────────
+    {
+      email:    "content@lawoffice.sa",
+      name:     "مدير المحتوى",
+      role:     "MANAGER",
+      phone:    "",
+      password: adminPassword,
+    },
     // ── السكرتير القانوني ────────────────────────────────────────────
     {
       email:    "secretary@lawoffice.sa",
