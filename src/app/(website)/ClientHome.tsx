@@ -55,7 +55,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
     {
       layout: "centered",
       showLogo: true,
-      title: "مكتب المحامية رقية عبدالرحمن للمحاماة والاستشارات القانونية في السعودية",
+      title: "مكتب المحامية رقية عبدالرحمن\nللمحاماة والاستشارات القانونية",
       subtitle: cmsData.settings.slogan || "ندافع عن حقك، لأنك تستحقه",
       desc: "خبرة واسعة ونخبة متخصصة في تقديم الاستشارات القانونية والشرعية، صياغة العقود والاتفاقيات، وتمثيل ومساندة موكلينا أمام جميع المحاكم والجهات القضائية لضمان حقوقكم وحمايتها بأعلى معايير الكفاءة والسرية.",
       img: "/images/hero-desk.jpg",
@@ -167,7 +167,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
                   {(slide as any).topText && (
                     <p style={sd(0)} className="text-[#C5A059] font-bold text-lg mb-4 tracking-wider">{(slide as any).topText}</p>
                   )}
-                  <h1 style={s(0.2)} className="text-3xl md:text-4xl font-bold mb-6 leading-tight max-w-4xl">{slide.title as string}</h1>
+                  <h1 style={s(0.2)} className="text-3xl md:text-4xl font-bold mb-6 leading-tight max-w-4xl whitespace-pre-line">{slide.title as string}</h1>
                   <p style={s(0.4)} className="text-sm md:text-lg text-slate-200 max-w-3xl mb-10 leading-relaxed font-medium">{slide.desc as string}</p>
                   <div style={s(0.6)} className="flex flex-wrap gap-4 justify-center">
                     {slide.buttons.map((btn, bIdx) => (
