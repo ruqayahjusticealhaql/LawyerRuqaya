@@ -55,7 +55,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
     {
       layout: "centered",
       showLogo: true,
-      title: "شركة رقية عبدالرحمن",
+      title: "مكتب المحامية رقية عبدالرحمن",
       subtitle: cmsData.settings.slogan || "ندافع عن حقك، لأنك تستحقه",
       desc: "خبرة واسعة في تقديم الاستشارات القانونية والشرعية وصياغة العقود وتمثيل موكلينا أمام جميع المحاكم والجهات القضائية.",
       img: "/images/hero-desk.jpg",
@@ -161,7 +161,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
                 <>
                   {slide.showLogo && (
                     <div style={sd(0)} className="mb-8 text-center mx-auto flex flex-col items-center">
-                      <img src="/images/logo.png" alt="شعار شركة رقية عبدالرحمن" className="w-64 md:w-80 h-auto object-contain mb-4" />
+                      <img src="/images/logo.png" alt="شعار مكتب المحامية رقية عبدالرحمن" className="w-64 md:w-80 h-auto object-contain mb-4" />
                     </div>
                   )}
                   {(slide as any).topText && (
@@ -371,7 +371,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
               <div className="relative rounded-3xl h-[450px] shadow-2xl overflow-hidden group">
                 <img
                   src="/images/team-photo.jpg"
-                  alt="مقر شركة رقية عبدالرحمن للمحاماة"
+                  alt="مقر مكتب المحامية رقية عبدالرحمن للمحاماة"
                   className="w-full h-full object-cover transition-transform duration-[8000ms] group-hover:scale-105"
                 />
               </div>
@@ -528,7 +528,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
         {/* Google Reviews Button */}
         <div className="text-center mt-12 relative z-10">
           <a
-            href={cmsData.settings.googleMapReviewsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("شركة رقية عبدالرحمن للمحاماة والاستشارات القانونية الدمام")}`}
+            href={cmsData.settings.googleMapReviewsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("مكتب المحامية رقية عبدالرحمن للمحاماة والاستشارات القانونية الدمام")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-3.5 border border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-white rounded-xl font-bold transition-all duration-300 shadow-lg"
@@ -564,7 +564,7 @@ export default function HomePage({ cmsData }: { cmsData: CmsData }) {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="موقع شركة رقية عبدالرحمن للمحاماة والاستشارات القانونية"
+              title="موقع مكتب المحامية رقية عبدالرحمن للمحاماة والاستشارات القانونية"
             />
           </div>
         </div>

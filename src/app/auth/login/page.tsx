@@ -23,7 +23,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="relative">
           <Link href="/">
-            <img src="/images/logo.png" alt="شركة رقية عبدالرحمن للمحاماة" className="h-20 w-auto object-contain" />
+            <img src="/images/logo.png" alt="مكتب المحامية رقية عبدالرحمن للمحاماة" className="h-20 w-auto object-contain" />
           </Link>
         </div>
 
@@ -65,7 +65,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <div className="relative text-sm" style={{ color: "#2A3A52" }}>
-          © 2025 شركة رقية عبدالرحمن
+          © 2025 مكتب المحامية رقية عبدالرحمن
         </div>
       </div>
 
@@ -84,7 +84,7 @@ export default function LoginPage() {
             >
               <Scale className="w-7 h-7" style={{ color: "#1a1000" }} />
             </div>
-            <h1 className="font-bold text-xl" style={{ color: "#F8FAFC" }}>شركة رقية عبدالرحمن</h1>
+            <h1 className="font-bold text-xl" style={{ color: "#F8FAFC" }}>مكتب المحامية رقية عبدالرحمن</h1>
           </div>
 
           {/* Card */}

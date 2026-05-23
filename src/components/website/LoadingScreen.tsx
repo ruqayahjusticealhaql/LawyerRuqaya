@@ -40,7 +40,7 @@ export default function LoadingScreen() {
         </svg>
         <img
           src="/images/logo-dark.png"
-          alt="شركة رقية عبدالرحمن"
+          alt="مكتب المحامية رقية عبدالرحمن"
           className="w-56 h-56 object-contain"
         />
       </div>

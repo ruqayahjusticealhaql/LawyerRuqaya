@@ -150,7 +150,7 @@ function ResetPasswordForm() {
 
         {/* Footer */}
         <div className="relative text-sm" style={{ color: "#2A3A52" }}>
-          © 2026 شركة رقية عبدالرحمن
+          © 2026 مكتب المحامية رقية عبدالرحمن
         </div>
       </div>
 
@@ -169,7 +169,7 @@ function ResetPasswordForm() {
             >
               <Scale className="w-7 h-7" style={{ color: "#1a1000" }} />
             </div>
-            <h1 className="font-bold text-xl" style={{ color: "#F8FAFC" }}>شركة رقية عبدالرحمن</h1>
+            <h1 className="font-bold text-xl" style={{ color: "#F8FAFC" }}>مكتب المحامية رقية عبدالرحمن</h1>
           </div>
 
           {/* Card */}

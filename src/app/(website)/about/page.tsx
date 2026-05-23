@@ -51,7 +51,7 @@ export default async function AboutPage() {
               <div className="relative w-[300px] h-[380px] md:w-[340px] md:h-[420px] rounded-[40px] overflow-hidden shadow-2xl border-2 border-white">
                 <img
                   src="/images/about-team.jpg"
-                  alt="فريق شركة رقية عبدالرحمن"
+                  alt="فريق مكتب المحامية رقية عبدالرحمن"
                   className="w-full h-full object-cover"
                 />
                 {/* Overlay gradient at bottom */}
