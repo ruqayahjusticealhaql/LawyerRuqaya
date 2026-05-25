@@ -11,7 +11,7 @@ export async function updateTaskStatus(taskId: string, newStatus: string) {
   const task = await prisma.task.findUnique({ where: { id: taskId }, include: { assignedTo: true } });
   if (!task) throw new Error("المهمة غير موجودة");
 
-  const isAdmin = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY";
+  const isAdmin = session.role === "MANAGER" || session.role === "LEGAL_SECRETARY" || session.role === "CONTENT_MANAGER";
   if (!isAdmin && task.assignedToId !== session.id) {
     throw new Error("لا تملك صلاحية تعديل هذه المهمة");
   }
@@ -53,8 +53,8 @@ export async function createTask(data: {
 
   // Determine approval status
   const isSelfAssigned = data.assignedToId === session.id;
-  const approvalStatus =
-    session.role === "LAWYER" && !isSelfAssigned ? "PENDING_APPROVAL" : "APPROVED";
+  const needsApproval = session.role === "LAWYER" && !isSelfAssigned;
+  const approvalStatus = needsApproval ? "PENDING_APPROVAL" : "APPROVED";
 
   const createdTask = await prisma.task.create({
     data: {
@@ -75,7 +75,7 @@ export async function createTask(data: {
   if (approvalStatus === "PENDING_APPROVAL") {
     // Notify admins
     const admins = await prisma.user.findMany({
-      where: { role: { in: ["MANAGER", "LEGAL_SECRETARY"] }, isActive: true },
+      where: { role: { in: ["MANAGER", "LEGAL_SECRETARY", "CONTENT_MANAGER"] }, isActive: true },
       select: { id: true },
     });
     await Promise.all(

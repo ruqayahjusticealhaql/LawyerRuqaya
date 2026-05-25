@@ -1,11 +1,11 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { updateBlogPost, deleteBlogPost } from "@/lib/cms";
-import { getSession } from "@/lib/auth";
+import { getSession, hasRole } from "@/lib/auth";
 
 export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!hasRole(session, "MANAGER", "CONTENT_MANAGER")) return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   const { id } = await context.params;
   const body = await req.json();
   updateBlogPost(id, body);
@@ -14,7 +14,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
 
 export async function DELETE(_req: Request, context: { params: Promise<{ id: string }> }) {
   const session = await getSession();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!hasRole(session, "MANAGER", "CONTENT_MANAGER")) return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   const { id } = await context.params;
   deleteBlogPost(id);
   return NextResponse.json({ ok: true });
