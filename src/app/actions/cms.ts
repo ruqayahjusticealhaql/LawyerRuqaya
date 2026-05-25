@@ -78,7 +78,7 @@ export async function getHomeConfig(): Promise<HomeConfig> {
 
 export async function saveThemeConfig(data: ThemeConfig) {
   const session = await getSession();
-  if (!hasRole(session, "MANAGER")) throw new Error("Unauthorized");
+  if (!hasRole(session, "MANAGER", "CONTENT_MANAGER")) throw new Error("Unauthorized");
 
   await prisma.cmsConfig.upsert({
     where: { key: "theme" },
@@ -93,7 +93,7 @@ export async function saveThemeConfig(data: ThemeConfig) {
 
 export async function saveHomeConfig(data: HomeConfig) {
   const session = await getSession();
-  if (!hasRole(session, "MANAGER")) throw new Error("Unauthorized");
+  if (!hasRole(session, "MANAGER", "CONTENT_MANAGER")) throw new Error("Unauthorized");
 
   await prisma.cmsConfig.upsert({
     where: { key: "home" },
