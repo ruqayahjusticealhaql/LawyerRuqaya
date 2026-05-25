@@ -34,7 +34,7 @@ async function main() {
     {
       email:    "content@lawoffice.sa",
       name:     "مدير المحتوى",
-      role:     "MANAGER",
+      role:     "CONTENT_MANAGER",
       phone:    "",
       password: adminPassword,
     },

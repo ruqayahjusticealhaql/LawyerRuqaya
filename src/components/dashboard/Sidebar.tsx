@@ -15,11 +15,11 @@ import { useState } from "react";
 type NavItem = { href: string; label: string; icon: React.ReactNode; roles: string[] };
 
 const navItems: NavItem[] = [
-  { href: "/dashboard",          label: "الرئيسية",      icon: <LayoutDashboard className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
+  { href: "/dashboard",          label: "الرئيسية",      icon: <LayoutDashboard className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY","CONTENT_MANAGER"] },
   { href: "/dashboard/cases",    label: "القضايا",       icon: <Scale            className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
   { href: "/dashboard/sessions", label: "الجلسات",       icon: <CalendarDays     className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
   { href: "/dashboard/tasks",      label: "المهام",        icon: <FileText         className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
-  { href: "/dashboard/cms",      label: "إدارة المحتوى", icon: <Globe            className="w-[18px] h-[18px]" />, roles: ["MANAGER"] },
+  { href: "/dashboard/cms",      label: "إدارة المحتوى", icon: <Globe            className="w-[18px] h-[18px]" />, roles: ["MANAGER","CONTENT_MANAGER"] },
   { href: "/dashboard/clients",  label: "العملاء",       icon: <Users            className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },
   { href: "/dashboard/finance",  label: "الحسابات",      icon: <DollarSign       className="w-[18px] h-[18px]" />, roles: ["MANAGER","LEGAL_SECRETARY","LAWYER"] },
   { href: "/dashboard/calendar", label: "التقويم",       icon: <Calendar         className="w-[18px] h-[18px]" />, roles: ["MANAGER","LAWYER","LEGAL_SECRETARY"] },

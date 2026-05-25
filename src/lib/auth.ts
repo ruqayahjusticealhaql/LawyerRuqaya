@@ -13,7 +13,7 @@ export type SessionUser = {
 function normalizeRole(role: string): string {
   const secretaryRoles = new Set([
     "SECRETARY", "ACCOUNTANT", "HR_MANAGER", "RECEPTIONIST",
-    "CUSTOMER_SERVICE", "ARCHIVER", "CONTENT_MANAGER",
+    "CUSTOMER_SERVICE", "ARCHIVER",
   ]);
   const lawyerRoles = new Set(["ASSISTANT", "TRAINEE", "PARTNER", "ADVISOR"]);
 
