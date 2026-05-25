@@ -25,7 +25,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const theme = getSettings();
+  const theme = await getSettings();
 
   return (
     <html lang="ar" dir="rtl" className={ibmPlex.variable}>

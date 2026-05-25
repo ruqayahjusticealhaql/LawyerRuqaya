@@ -3,8 +3,8 @@ import PageHero from "@/components/website/PageHero";
 import Link from "next/link";
 import { getCmsData } from "@/lib/cms";
 
-export default function BlogPage() {
-  const { blog } = getCmsData();
+export default async function BlogPage() {
+  const { blog } = await getCmsData();
   const posts = blog.filter(p => p.published).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   // Arabic Months array helper for beautiful custom date strings matching the screenshot

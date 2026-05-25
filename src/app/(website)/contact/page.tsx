@@ -3,8 +3,8 @@ import PageHero from "@/components/website/PageHero";
 import ContactForm from "@/components/website/ContactForm";
 import { getCmsData } from "@/lib/cms";
 
-export default function ContactPage() {
-  const { settings } = getCmsData();
+export default async function ContactPage() {
+  const { settings } = await getCmsData();
 
   const workHours: { day: string; hours: string }[] = (() => {
     try { return JSON.parse(settings.workHours || "[]"); } catch { return []; }

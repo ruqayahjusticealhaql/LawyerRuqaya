@@ -21,7 +21,7 @@ const getServiceIconPath = (id: string) => {
 };
 
 export default async function ServicesPage() {
-  const cmsData = getCmsData();
+  const cmsData = await getCmsData();
   const services = cmsData.services.filter(s => s.active).sort((a, b) => a.order - b.order);
 
   return (

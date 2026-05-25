@@ -1,29 +1,22 @@
-import fs from "fs";
-import path from "path";
-
-const DATA_PATH = path.join(process.cwd(), "data", "cms.json");
+import { prisma } from "@/lib/prisma";
 
 export type CmsSettings = {
   siteName: string; slogan: string; logoUrl: string;
   primaryColor: string; secondaryColor: string;
   phone: string; whatsapp: string; email: string; address: string;
   instagramUrl: string; twitterUrl: string; linkedinUrl: string;
-  // About page
   aboutText: string; aboutImage: string;
   vision: string; mission: string;
   journeyText: string;
-  qualifications: string; // JSON array of strings
-  experiences: string;    // JSON array of {year, title, place}
-  aboutValues: string;    // JSON array of {title, desc}
-  // Contact page
-  workHours: string;      // JSON array of {day, hours}
+  qualifications: string;
+  experiences: string;
+  aboutValues: string;
+  workHours: string;
   mapLat: string; mapLng: string;
   googleMapReviewsUrl?: string;
-  // Footer
   footerAboutText: string;
   companyReg: string;
-  // Team
-  teamMembers: string; // JSON array of {name, title, specialization, photoUrl}
+  teamMembers: string;
 };
 
 export type CmsService = {
@@ -53,109 +46,147 @@ export type CmsData = {
   blog: CmsBlogPost[];
 };
 
-function read(): CmsData {
+const DEFAULT_SETTINGS: CmsSettings = {
+  siteName: "مكتب المحامية رقية عبدالرحمن", slogan: "", logoUrl: "/images/logo.png",
+  primaryColor: "#C5A059", secondaryColor: "#0B1325",
+  phone: "", whatsapp: "", email: "", address: "",
+  instagramUrl: "", twitterUrl: "", linkedinUrl: "", googleMapReviewsUrl: "",
+  aboutText: "", aboutImage: "", vision: "", mission: "", journeyText: "",
+  qualifications: "", experiences: "", aboutValues: "",
+  workHours: "", mapLat: "", mapLng: "",
+  footerAboutText: "", companyReg: "", teamMembers: "",
+};
+
+async function getKey<T>(key: string, defaultVal: T): Promise<T> {
   try {
-    return JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));
-  } catch {
-    return {
-      settings: {
-        siteName: "مكتب المحامية رقية عبدالرحمن", slogan: "", logoUrl: "/images/logo.png",
-        primaryColor: "#C5A059", secondaryColor: "#0B1325",
-        phone: "", whatsapp: "", email: "", address: "", instagramUrl: "", twitterUrl: "", linkedinUrl: "", googleMapReviewsUrl: "",
-        aboutText: "", aboutImage: "", vision: "", mission: "", journeyText: "", qualifications: "", experiences: "", aboutValues: "", workHours: "", mapLat: "", mapLng: "", footerAboutText: "", companyReg: "", teamMembers: ""
-      },
-      services: [], sections: [], announcements: [], blog: [],
-    };
-  }
+    const record = await prisma.cmsConfig.findUnique({ where: { key } });
+    if (record?.value) return { ...defaultVal as object, ...JSON.parse(record.value) } as T;
+  } catch {}
+  return defaultVal;
 }
 
-function write(data: CmsData) {
-  fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true });
-  fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2), "utf-8");
+async function getArrayKey<T>(key: string): Promise<T[]> {
+  try {
+    const record = await prisma.cmsConfig.findUnique({ where: { key } });
+    if (record?.value) return JSON.parse(record.value) as T[];
+  } catch {}
+  return [];
 }
 
-export function getCmsData(): CmsData { return read(); }
-export function getSettings(): CmsSettings { return read().settings; }
-
-export function saveSettings(s: Partial<CmsSettings>) {
-  const data = read();
-  data.settings = { ...data.settings, ...s };
-  write(data);
-  return data.settings;
+async function setKey(key: string, value: unknown) {
+  await prisma.cmsConfig.upsert({
+    where: { key },
+    update: { value: JSON.stringify(value) },
+    create: { key, value: JSON.stringify(value) },
+  });
 }
 
-export function getServices() { return read().services; }
-export function saveService(s: Omit<CmsService, "id">) {
-  const data = read();
+export async function getCmsData(): Promise<CmsData> {
+  const [settings, services, sections, announcements, blog] = await Promise.all([
+    getKey("settings", DEFAULT_SETTINGS),
+    getArrayKey<CmsService>("services"),
+    getArrayKey<CmsSection>("sections"),
+    getArrayKey<CmsAnnouncement>("announcements"),
+    getArrayKey<CmsBlogPost>("blog"),
+  ]);
+  return { settings, services, sections, announcements, blog };
+}
+
+export async function getSettings(): Promise<CmsSettings> {
+  return getKey("settings", DEFAULT_SETTINGS);
+}
+
+export async function saveSettings(s: Partial<CmsSettings>): Promise<CmsSettings> {
+  const current = await getSettings();
+  const updated = { ...current, ...s };
+  await setKey("settings", updated);
+  return updated;
+}
+
+export async function getServices(): Promise<CmsService[]> {
+  return getArrayKey<CmsService>("services");
+}
+
+export async function saveService(s: Omit<CmsService, "id">): Promise<CmsService> {
+  const list = await getServices();
   const item = { ...s, id: crypto.randomUUID() };
-  data.services.push(item);
-  write(data);
+  list.push(item);
+  await setKey("services", list);
   return item;
 }
-export function updateService(id: string, s: Partial<CmsService>) {
-  const data = read();
-  data.services = data.services.map(x => x.id === id ? { ...x, ...s } : x);
-  write(data);
-}
-export function deleteService(id: string) {
-  const data = read();
-  data.services = data.services.filter(x => x.id !== id);
-  write(data);
+
+export async function updateService(id: string, s: Partial<CmsService>) {
+  const list = await getServices();
+  await setKey("services", list.map(x => x.id === id ? { ...x, ...s } : x));
 }
 
-export function getSections() { return read().sections; }
-export function saveSection(s: Omit<CmsSection, "id">) {
-  const data = read();
+export async function deleteService(id: string) {
+  const list = await getServices();
+  await setKey("services", list.filter(x => x.id !== id));
+}
+
+export async function getSections(): Promise<CmsSection[]> {
+  return getArrayKey<CmsSection>("sections");
+}
+
+export async function saveSection(s: Omit<CmsSection, "id">): Promise<CmsSection> {
+  const list = await getSections();
   const item = { ...s, id: crypto.randomUUID() };
-  data.sections.push(item);
-  write(data);
+  list.push(item);
+  await setKey("sections", list);
   return item;
 }
-export function updateSection(id: string, s: Partial<CmsSection>) {
-  const data = read();
-  data.sections = data.sections.map(x => x.id === id ? { ...x, ...s } : x);
-  write(data);
-}
-export function deleteSection(id: string) {
-  const data = read();
-  data.sections = data.sections.filter(x => x.id !== id);
-  write(data);
+
+export async function updateSection(id: string, s: Partial<CmsSection>) {
+  const list = await getSections();
+  await setKey("sections", list.map(x => x.id === id ? { ...x, ...s } : x));
 }
 
-export function getAnnouncements() { return read().announcements; }
-export function saveAnnouncement(a: Omit<CmsAnnouncement, "id" | "createdAt">) {
-  const data = read();
+export async function deleteSection(id: string) {
+  const list = await getSections();
+  await setKey("sections", list.filter(x => x.id !== id));
+}
+
+export async function getAnnouncements(): Promise<CmsAnnouncement[]> {
+  return getArrayKey<CmsAnnouncement>("announcements");
+}
+
+export async function saveAnnouncement(a: Omit<CmsAnnouncement, "id" | "createdAt">): Promise<CmsAnnouncement> {
+  const list = await getAnnouncements();
   const item = { ...a, id: crypto.randomUUID(), createdAt: new Date().toISOString() };
-  data.announcements.push(item);
-  write(data);
+  list.push(item);
+  await setKey("announcements", list);
   return item;
-}
-export function updateAnnouncement(id: string, a: Partial<CmsAnnouncement>) {
-  const data = read();
-  data.announcements = data.announcements.map(x => x.id === id ? { ...x, ...a } : x);
-  write(data);
-}
-export function deleteAnnouncement(id: string) {
-  const data = read();
-  data.announcements = data.announcements.filter(x => x.id !== id);
-  write(data);
 }
 
-export function getBlogPosts() { return read().blog; }
-export function saveBlogPost(p: Omit<CmsBlogPost, "id" | "createdAt">) {
-  const data = read();
+export async function updateAnnouncement(id: string, a: Partial<CmsAnnouncement>) {
+  const list = await getAnnouncements();
+  await setKey("announcements", list.map(x => x.id === id ? { ...x, ...a } : x));
+}
+
+export async function deleteAnnouncement(id: string) {
+  const list = await getAnnouncements();
+  await setKey("announcements", list.filter(x => x.id !== id));
+}
+
+export async function getBlogPosts(): Promise<CmsBlogPost[]> {
+  return getArrayKey<CmsBlogPost>("blog");
+}
+
+export async function saveBlogPost(p: Omit<CmsBlogPost, "id" | "createdAt">): Promise<CmsBlogPost> {
+  const list = await getBlogPosts();
   const item = { ...p, id: crypto.randomUUID(), createdAt: new Date().toISOString() };
-  data.blog.push(item);
-  write(data);
+  list.push(item);
+  await setKey("blog", list);
   return item;
 }
-export function updateBlogPost(id: string, p: Partial<CmsBlogPost>) {
-  const data = read();
-  data.blog = data.blog.map(x => x.id === id ? { ...x, ...p } : x);
-  write(data);
+
+export async function updateBlogPost(id: string, p: Partial<CmsBlogPost>) {
+  const list = await getBlogPosts();
+  await setKey("blog", list.map(x => x.id === id ? { ...x, ...p } : x));
 }
-export function deleteBlogPost(id: string) {
-  const data = read();
-  data.blog = data.blog.filter(x => x.id !== id);
-  write(data);
+
+export async function deleteBlogPost(id: string) {
+  const list = await getBlogPosts();
+  await setKey("blog", list.filter(x => x.id !== id));
 }

@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 type TeamMember = { name: string; title: string; specialization: string; photoUrl: string };
 
 export default async function AboutPage() {
-  const { settings } = getCmsData();
+  const { settings } = await getCmsData();
 
   const aboutValues: { title: string; desc: string }[] = (() => {
     try { return JSON.parse(settings.aboutValues || "[]"); } catch { return []; }

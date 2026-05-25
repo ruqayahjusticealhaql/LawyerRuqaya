@@ -8,7 +8,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
   if (!hasRole(session, "MANAGER", "CONTENT_MANAGER")) return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   const { id } = await context.params;
   const body = await req.json();
-  updateBlogPost(id, body);
+  await updateBlogPost(id, body);
   return NextResponse.json({ ok: true });
 }
 
@@ -16,6 +16,6 @@ export async function DELETE(_req: Request, context: { params: Promise<{ id: str
   const session = await getSession();
   if (!hasRole(session, "MANAGER", "CONTENT_MANAGER")) return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   const { id } = await context.params;
-  deleteBlogPost(id);
+  await deleteBlogPost(id);
   return NextResponse.json({ ok: true });
 }

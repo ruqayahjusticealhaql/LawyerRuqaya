@@ -4,8 +4,8 @@ import FloatingContactButtons from "@/components/website/WhatsAppButton";
 import LoadingScreen from "@/components/website/LoadingScreen";
 import { getCmsData } from "@/lib/cms";
 
-export default function WebsiteLayout({ children }: { children: React.ReactNode }) {
-  const { settings } = getCmsData();
+export default async function WebsiteLayout({ children }: { children: React.ReactNode }) {
+  const { settings } = await getCmsData();
   return (
     <>
       <LoadingScreen />

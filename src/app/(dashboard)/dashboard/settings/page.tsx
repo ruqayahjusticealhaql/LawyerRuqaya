@@ -7,7 +7,7 @@ export default async function SettingsPage() {
   const session = await getSession();
   if (!hasRole(session, "MANAGER")) redirect("/dashboard");
 
-  const settings = getSettings();
+  const settings = await getSettings();
 
   return (
     <div className="space-y-6 max-w-3xl animate-fade-in">

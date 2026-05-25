@@ -4,12 +4,12 @@ import { getBlogPosts, saveBlogPost } from "@/lib/cms";
 import { getSession, hasRole } from "@/lib/auth";
 
 export async function GET() {
-  return NextResponse.json(getBlogPosts());
+  return NextResponse.json(await getBlogPosts());
 }
 
 export async function POST(req: Request) {
   const session = await getSession();
   if (!hasRole(session, "MANAGER", "CONTENT_MANAGER")) return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   const body = await req.json();
-  return NextResponse.json(saveBlogPost(body));
+  return NextResponse.json(await saveBlogPost(body));
 }
