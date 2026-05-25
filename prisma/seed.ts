@@ -17,64 +17,14 @@ async function main() {
     where: { role: "EXECUTIVE" },
     data: { role: "MANAGER" },
   });
-  const adminPassword     = await bcrypt.hash("Admin@2026", 12);
-  const secretaryPassword = await bcrypt.hash("Admin@2026", 12);
-  const lawyerPassword    = await bcrypt.hash("Admin@2026", 12);
-
   const accounts = [
-    // ── المدير ──────────────────────────────────────────────────────
-    {
-      email:    "admin@lawoffice.sa",
-      name:     "رقية عبدالرحمن",
-      role:     "MANAGER",
-      phone:    "0538225224",
-      password: adminPassword,
-    },
-    // ── مدير المحتوى ─────────────────────────────────────────────────
-    {
-      email:    "content@lawoffice.sa",
-      name:     "مدير المحتوى",
-      role:     "CONTENT_MANAGER",
-      phone:    "",
-      password: adminPassword,
-    },
-    // ── السكرتير القانوني ────────────────────────────────────────────
-    {
-      email:    "secretary@lawoffice.sa",
-      name:     "نورة",
-      role:     "LEGAL_SECRETARY",
-      phone:    "",
-      password: secretaryPassword,
-    },
-    // ── المحامون (4 حسابات) ──────────────────────────────────────────
-    {
-      email:    "hessa@lawoffice.sa",
-      name:     "حصة",
-      role:     "LAWYER",
-      phone:    "",
-      password: lawyerPassword,
-    },
-    {
-      email:    "abdullah@lawoffice.sa",
-      name:     "عبدالله",
-      role:     "LAWYER",
-      phone:    "",
-      password: lawyerPassword,
-    },
-    {
-      email:    "fardan@lawoffice.sa",
-      name:     "فردان",
-      role:     "LAWYER",
-      phone:    "",
-      password: lawyerPassword,
-    },
-    {
-      email:    "moath@lawoffice.sa",
-      name:     "معاذ",
-      role:     "LAWYER",
-      phone:    "",
-      password: lawyerPassword,
-    },
+    { email: "admin@lawoffice.sa",     name: "رقية عبدالرحمن", role: "MANAGER",          phone: "0538225224", password: await bcrypt.hash("Ruqaya@2026",   12) },
+    { email: "content@lawoffice.sa",   name: "مدير المحتوى",   role: "CONTENT_MANAGER",  phone: "",           password: await bcrypt.hash("Content@2026",  12) },
+    { email: "secretary@lawoffice.sa", name: "نورة",           role: "LEGAL_SECRETARY",  phone: "",           password: await bcrypt.hash("Noura@2026",    12) },
+    { email: "hessa@lawoffice.sa",     name: "حصة",            role: "LAWYER",           phone: "",           password: await bcrypt.hash("Hessa@2026",    12) },
+    { email: "abdullah@lawoffice.sa",  name: "عبدالله",        role: "LAWYER",           phone: "",           password: await bcrypt.hash("Abdullah@2026", 12) },
+    { email: "fardan@lawoffice.sa",    name: "فردان",          role: "LAWYER",           phone: "",           password: await bcrypt.hash("Fardan@2026",   12) },
+    { email: "moath@lawoffice.sa",     name: "معاذ",           role: "LAWYER",           phone: "",           password: await bcrypt.hash("Moath@2026",    12) },
   ];
 
   for (const acc of accounts) {
