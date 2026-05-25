@@ -17,9 +17,9 @@ async function main() {
     where: { role: "EXECUTIVE" },
     data: { role: "MANAGER" },
   });
-  const adminPassword     = await bcrypt.hash("Admin@2024", 12);
-  const secretaryPassword = await bcrypt.hash("Admin@2024", 12);
-  const lawyerPassword    = await bcrypt.hash("Admin@2024", 12);
+  const adminPassword     = await bcrypt.hash("Admin@2026", 12);
+  const secretaryPassword = await bcrypt.hash("Admin@2026", 12);
+  const lawyerPassword    = await bcrypt.hash("Admin@2026", 12);
 
   const accounts = [
     // ── المدير ──────────────────────────────────────────────────────
